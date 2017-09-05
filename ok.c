@@ -17,29 +17,38 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-/*
-   void *my_malloc(size_t size)
-   {
-
-   }
-   */
-
 
 void *my_malloc(size_t size)
 {
-	return(mmap(NULL, size, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0));
+	//if tiny 
+	if (getpagesize() < size)
+	{
 
+	}
+	//small
+	else if (getpagesize() < size && size < getpagesize() * 5)
+	{
+
+	}
+	//large
+	else
+	{
+
+	}
+	return(mmap(NULL, size, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0));
 }
+
 int main(int argc, char **argv)
 {
-	int nb = strlen(argv[1]);
+	//int nb = getpagesize() - 1; //fonctionne
+	int nb = (getpagesize() * 2) +22; //fonctionne pas 
 	int i = 0;
 	char *str;
 
 	str = (char *)my_malloc(nb);
-	while(i < nb)
+	while(i < nb-1)
 	{
-		str[i] = argv[1][i];
+		str[i] = 'x';
 		i++;
 	}
 	str[i] = '\0';
