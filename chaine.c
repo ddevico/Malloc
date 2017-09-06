@@ -11,22 +11,45 @@
 /* ************************************************************************** */
 #include "includes/malloc.h"
 
+size_t  type_of_size(size_t size)
+{
+    size_t val;
+
+    if (size <= TINY)
+    {
+        val = (TINY * 100 * getpagesize())/* + sizeof(t_page)*/;
+    }
+    else if (size <= SMALL)
+    {
+        val = (SMALL * 100 * getpagesize())/* + sizeof(t_page)*/;    
+    }
+    else
+    {
+        val = (LARGE * 100 * getpagesize())/* + sizeof(t_page)*/;    
+    }
+
+    return (val);
+}
+
 //a modifier 
-t_page *new_maillon(size_t size, void *address)
+t_page *new_page(size_t size, void *address)
 {
 	t_page *origin;
+    size_t size_type;
 
+    size_type = type_of_size(size);
 	origin = mmap(NULL, sizeof(t_page), PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
 	origin->busy = size;
-	origin->octet = getpagesize() - (size % getpagesize());
-	origin->address = mmap(address, size, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
-	origin->next = NULL;
+	origin->size = size_type;
+	origin->address = mmap(address, size_type, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
+    origin->next = NULL;
+    origin->block = mmap(NULL, sizeof(t_page), PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
 
 	return (origin);
 }
 
 //a modifier 
-void	*add_maillon(t_page *one, size_t size, void *address)
+void	*add_page(t_page *one, size_t size, void *address)
 {
 	while(one->next != NULL)
 	{

@@ -22,13 +22,16 @@
 #include <unistd.h>
 #include <string.h>
 
+# define TINY 2*getpagesize()
+# define SMALL 4*getpagesize()
+# define LARGE 
 typedef struct s_page
 {
     size_t  busy;
     size_t  size;
     void    *address;//espace memoire de début
-    struct s_page   *next;
     struct s_block  *block;
+    struct s_page   *next;
 }             t_page;
 
 typedef struct s_block
