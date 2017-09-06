@@ -40,5 +40,4 @@ typedef struct s_block
 
 t_page *page_one;
 
-
 #endif
