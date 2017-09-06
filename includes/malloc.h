@@ -13,15 +13,32 @@
 #ifndef MALLOC_H
 #define MALLOC_H
 
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stddef.h>
+#include <unistd.h>
+#include <string.h>
+
 typedef struct s_page
 {
-    //nombres d'octets occupés
-    size_t     busy;
-    //nombre d'octets disponibles dans cette page
-    int     octet;
+    size_t  busy;
+    size_t  size;
     void    *address;//espace memoire de début
-    void    *next;
-}             page_t
+    struct s_page   *next;
+    struct s_block  *block;
+}             t_page;
 
-page_t g_origin;
+typedef struct s_block
+{
+    size_t  size;
+    void    *address;
+    struct s_block  *next;
+}             t_block;
+
+t_page *page_one;
+
+
 #endif
