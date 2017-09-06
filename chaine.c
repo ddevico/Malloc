@@ -37,6 +37,8 @@ void	*add_maillon(t_page *one, size_t size, void *address)
 	return (address);
 }
 
+//DAVY faire mm fonctions que les deux precedentes mais pour block
+
 void    *traitement(size_t size, t_page *page_one)
 {
     t_page *origin;
