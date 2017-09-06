@@ -55,7 +55,43 @@ void	*add_page(t_page *one, size_t size, void *address)
 	{
         printf("stocke busy: %zu | octet %d | address: %p \n", one->busy, one->octet, one->address);
         one = one->next;
-    }	
+    }
+	one->next = new_maillon(size, address);
+	return (address);
+}
+
+//a modifier
+s_block *new_block(size_t size, void *address)
+{
+	s_block *origin;
+
+	origin = mmap(NULL, sizeof(s_block), PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
+	origin->address = mmap(address, size, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
+	origin->next = NULL;
+
+	return (origin);
+}
+
+//a modifier
+void	*add_block(s_block *one, size_t size, void *address)
+{
+	while(one->next != NULL)
+	{
+        printf("stocke busy: %zu | octet %d | address: %p \n", one->busy, one->octet, one->address);
+        one = one->next;
+    }
+	one->next = new_maillon(size, address);
+	return (address);
+}
+
+//a modifier
+void	*add_maillon(t_page *one, size_t size, void *address)
+{
+	while(one->next != NULL)
+	{
+        printf("stocke busy: %zu | octet %d | address: %p \n", one->busy, one->octet, one->address);
+        one = one->next;
+    }
 	one->next = new_maillon(size, address);
 	return (address);
 }
@@ -91,7 +127,7 @@ void *my_malloc(size_t size)
     page = page_one;
     //return (traitement());
     return(add_maillon(page_one, size, mmap(NULL, size, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0)));
-	
+
 }
 
 int main(int ac, char **av)
