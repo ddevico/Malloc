@@ -13,4 +13,15 @@
 #ifndef MALLOC_H
 #define MALLOC_H
 
+typedef struct s_page
+{
+    //nombres d'octets occupés
+    size_t     busy;
+    //nombre d'octets disponibles dans cette page
+    int     octet;
+    void    *address;//espace memoire de début
+    void    *next;
+}             page_t
+
+page_t g_origin;
 #endif
