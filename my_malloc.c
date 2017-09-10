@@ -1,5 +1,18 @@
 #include "includes/malloc.h"
 
+void *address_iterate(unsigned int max, void *addr)
+{
+    int i;
+
+    i = 0;
+    while (i < max)
+    {
+        addr++;
+        i++;    
+    }
+    return (addr);
+
+}
 //y a t il a prevoir aussi une place pour le premier t_block?
 size_t  type_of_size(size_t size)
 {
@@ -7,15 +20,20 @@ size_t  type_of_size(size_t size)
 
     if (size <= TINY)
     {
-        val = (TINY * 100 * getpagesize())+ sizeof(t_page);
+        //val = /*(TINY * */100 * getpagesize()/*)+ sizeof(t_page)*/;
+        val = (TINY * 100)+ sizeof(t_page);
     }
     else if (size <= SMALL)
     {
-        val = (SMALL * 100 * getpagesize()) + sizeof(t_page);    
+//        val = (SMALL * 100 * getpagesize()) + sizeof(t_page);  
+        val = (SMALL * 100)+ sizeof(t_page);
+          
     }
     else
     {
-        val = (LARGE * 100 * getpagesize()) + sizeof(t_page);    
+//        val = (LARGE * 100 * getpagesize()) + sizeof(t_page);    
+        val = (LARGE * 100)+ sizeof(t_page);
+    
     }
 
     return (val);
@@ -34,16 +52,21 @@ printf("not find\n");
 printf("0\n");
     origin = g_page_one;
     size_type = type_of_size(size);
-printf("1, size_type: %lu\n");
+printf("1, size_type: %lu\n", size_type);
+    //add = (t_page *)mmap(NULL, size_type, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
     add = mmap(NULL, size_type, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
-printf("2\n");
+if (add == MAP_FAILED)
+{
+    return (NULL);
+}
+//add = test;
     add->busy = size + sizeof(t_page);
 printf("3\n");
     add->size = size_type;
-    add->address = &add;
-    block = add->address + size + sizeof(t_page);
+    printf("calc %lu + %lu --> %lu", (long)&add, sizeof(t_page), (long)&add + sizeof(t_page));
+    block = address_iterate(sizeof(t_page), &add);
     block->size = size + sizeof(t_block);
-    block->address = add->address + sizeof(t_page);
+    block->next = NULL;
     add->block = block;
     add->next = NULL;
 printf("4\n");
@@ -53,9 +76,12 @@ printf("4\n");
         g_page_one = add;
     else
         origin->next = add;
-printf("5\n");
+printf("&add(%p) + (t_page)%lu = &block(%p)\n", &add, sizeof(t_page), &block);
     
-    return (block->address);
+printf("5\n");
+//printf("&add : %p|sizeof(add)=%lu | &var: %p|sizeof(var)=%lu \n", &add, sizeof(add), &block, size);
+    
+    return (address_iterate(sizeof(t_block), &block));
 }
 
 
@@ -69,13 +95,13 @@ void *place(t_page *page, size_t size)
     page->busy += (size + sizeof(t_block));
     while (page->block->next)
         page->block = page->block->next;
+    block = address_iterate(page->block->size, &page->block);
     block->size = size + sizeof(t_block);
-    block->address = page->block->address + page->block->size;
     block->next = NULL;
     page->block->next = block;
     page->busy += block->size;
 
-    return (block->address);
+    return (&block);
 }
 
 void    *my_malloc(size_t size)

@@ -24,12 +24,12 @@
 
 # define TINY 2*getpagesize()
 # define SMALL 4*getpagesize()
-# define LARGE 
+# define LARGE 8*getpagesize()
+
 typedef struct s_page
 {
     size_t  busy;
     size_t  size;
-    void    *address;//espace memoire de début
     struct s_block  *block;
     struct s_page   *next;
 }             t_page;
@@ -37,10 +37,9 @@ typedef struct s_page
 typedef struct s_block
 {
     size_t  size;
-    void    *address;
     struct s_block  *next;
 }             t_block;
 
-t_page *page_one;
+t_page *g_page_one;
 
 #endif

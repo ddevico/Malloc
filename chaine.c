@@ -11,21 +11,23 @@
 /* ************************************************************************** */
 #include "includes/malloc.h"
 
+
+
 size_t  type_of_size(size_t size)
 {
     size_t val;
 
     if (size <= TINY)
     {
-        val = (TINY * 100 * getpagesize())/* + sizeof(t_page)*/;
+        val = (TINY * 100 * getpagesize())+ sizeof(t_page);
     }
     else if (size <= SMALL)
     {
-        val = (SMALL * 100 * getpagesize())/* + sizeof(t_page)*/;    
+        val = (SMALL * 100 * getpagesize()) + sizeof(t_page);    
     }
     else
     {
-        val = (LARGE * 100 * getpagesize())/* + sizeof(t_page)*/;    
+        val = (LARGE * 100 * getpagesize()) + sizeof(t_page);    
     }
 
     return (val);
