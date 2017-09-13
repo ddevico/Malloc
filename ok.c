@@ -18,42 +18,56 @@
 #include <unistd.h>
 #include <string.h>
 
-page_t beginning(size_t size)
+page_t *new_maillon(size_t size, void *address)
 {
-	page_t origin;
+	page_t *origin;
 
 	origin = mmap(NULL, sizeof(t_page), PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
-	origin.busy = size;
-	origin.octet = getpagesize() - (size % getpagesize());
-	origin.address = mmap(NULL, size, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
-	origin.next = NULL;
+	origin->busy = size;
+	origin->octet = getpagesize() - (size % getpagesize());
+	origin->address = mmap(NULL, size, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
+	origin->next = NULL;
 
 	return (origin);
+}
+
+void	*add_maillon(page_t *one, size_t size, void *address)
+{
+	while(one->next != NULL)
+		one = one->next;
+	one->next = new_maillon(size, address, );
+	return (address);
 }
 
 //si free alors deplace bloc au debut de la page libérée
 void *my_malloc(size_t size)
 {
-	static page_t page_one = beginning(size);
+	static page_t *page_one = beginning(size);
+	static int first = 0;
+	page_t *page;
+	void *test;
+
+	page = &page_one;
 	//faire liste chainée
 	//tab des octets de libres par page
-
-	void *test;
-	if (size < getpagesize())
+	(size == page_one->busy && page_one->next == NULL) ? first++ : 0;
+	if (first != 0)
 	{
-		while (page)
-		{
-			if (page->octet >= size)
+			while (page)
 			{
-				return (mmap(page->space + page->busy, size, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0))
+				if (page->octet >= size)
+				{
+					//voir pour free
+					return (mmap(page->address + page->busy, size, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0))
+				}
+				page = page->next;
 			}
-			page = page->next;
-		}
+		test = mmap(NULL, size, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
+		return ((test != MAP_FAILED) ? new_maillon(page_one, size, test) : NULL);
 	}
-	test = mmap(NULL, size, PROT_WRITE | PROT_READ, MAP_ANON | MAP_PRIVATE, -1, 0);
-	if (test != retour erreur mmap)
+	else
 	{
-		return (&test);
+		return (page_one->address);
 	}
 }
 
