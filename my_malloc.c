@@ -65,7 +65,7 @@ return (1500);
 }
 
 //sens de stockage: objet | t_block (de l'objet)
-void *place(t_page page, size_t size)
+void *place(t_page *page, size_t size)
 {
     size_t ecart;
     t_block *block;
@@ -78,7 +78,7 @@ void *place(t_page page, size_t size)
   //printf("DEBUT\n\n");
   //impress();
   //printf("END DEBUT\n\n");
-    test = &page;
+    test = page;
     ecart = 0;
     int i = 0;
     //page->block->next = NULL;
@@ -174,12 +174,13 @@ void    *my_malloc(size_t size)
     origin = g_page_one;
     while (origin)
     {
+        impress();
         printf("ORIGIN size= %lu | busy=%lu\n", origin->size, origin->busy);
         if (origin->size - origin->busy > size + sizeof(t_block))
         {
-            origin->busy += (size + sizeof(t_block));
+            //origin->busy += (size + sizeof(t_block));
             printf("Before place\n");
-            return (place(*origin, size));
+            return (place(origin, size));
 
         }
         origin = origin->next;
