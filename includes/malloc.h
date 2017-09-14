@@ -37,9 +37,15 @@ typedef struct s_page
 typedef struct s_block
 {
     size_t  size;
+    size_t  busy;
     struct s_block  *next;
 }             t_block;
 
 t_page *g_page_one;
+void my_free(void *ptr);
+void *memory_plus(void *addr, size_t inc);
+int     busy_question(t_page *origin, size_t size);
+int     busy_precision(t_page *origin, size_t size);
+
 
 #endif
