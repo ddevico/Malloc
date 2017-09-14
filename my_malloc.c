@@ -17,6 +17,7 @@ void *memory_plus(void *addr, size_t inc)
 }
 
 
+
 void    impress()
 {
     int x = 0;
@@ -71,14 +72,39 @@ size_t  type_of_size(size_t size)
     return (val);
 }
 
-void *place(t_page page, size_t size)
+void    *busyness(t_page page, size_t size, int busy)
+{
+    t_block *block;
+    
+    while (busy-- != 1)
+        page.block = page.block->next;
+    if (page.block->busy == 0 && page.block->size - sizeof(t_block) >= size)
+    {
+        page.block->busy += size;
+        return (memory_plus(page.block, sizeof(t_block)));
+    }
+    else
+    {
+        block = memory_plus(page.block, sizeof(t_block) + page.block->busy);
+        block->size = page.block->size - page.block->busy - sizeof(t_block);
+        block->busy = size;
+        page.block->size -= block->size;
+        
+        block->next = page.block->next;
+        page.block->next = block;
+        return (memory_plus(block, sizeof(t_block)));
+    }
+}
+
+void *place(t_page page, size_t size, int busy)
 {
     size_t ecart;
     t_block *block;
     t_page *test;
-    t_page *tmp;
 
     test = &page;
+    if ((busy = busy_precision(test, busy)) > 0)
+        return (busyness(*test, size, busy));
     ecart = 0;
     int i = 0;
     while (test->block && test->block->next)
@@ -87,6 +113,7 @@ void *place(t_page page, size_t size)
         }
     block = memory_plus(test->block, test->block->size);
     block->size = (size + sizeof(t_block));
+    block->busy = size;
     block->next = NULL;
     test->block->next = block;
     test->busy += block->size;
@@ -113,6 +140,7 @@ void *not_find(size_t size)
     add->size = size_type;
     block = memory_plus(add, sizeof(t_page));
     block->size = size + sizeof(t_block);
+    block->busy = size;
     block->next = NULL;
     add->block = block;
     add->next = NULL;
@@ -127,9 +155,11 @@ void *not_find(size_t size)
 
 void    *my_malloc(size_t size)
 {
-    static int first = 0;
-    t_page *origin;
+    static int  first = 0;
+    int         busy;
+    t_page      *origin;
 
+    busy = 0;
     if (first == 0)
     {
         g_page_one = NULL;
@@ -138,10 +168,11 @@ void    *my_malloc(size_t size)
     origin = g_page_one;
     while (origin)
     {
-        if (origin->size - origin->busy >= size + sizeof(t_block))
+        if (origin->size - origin->busy >= size + sizeof(t_block) && (busy = busy_question(origin, size)) != -1)
         {
-          origin->busy += (size + sizeof(t_block));
-          return (place(*origin, size));
+          //busy = -1-->no place || 0->size | 1 --> size +t_block
+          origin->busy += ((busy == 0) ? size : (size + sizeof(t_block)));
+          return (place(*origin, size, busy));
         }
         origin = origin->next;
     }
@@ -162,7 +193,7 @@ g_page_one = NULL;
   {
       if (ok != pages){
           ok = pages;
-    impress();
+   // impress();
       }
       str = (char *)my_malloc((sizeof(char)*strlen(av[1]))+1);
       int x = 0;
@@ -177,6 +208,7 @@ g_page_one = NULL;
       x=0;
       y = 0;
   }
+  my_free(str);
 
   return (0);
 }
