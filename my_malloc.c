@@ -181,7 +181,7 @@ void    *my_malloc(size_t size)
 
 int main(int ac, char **av)
 {
-
+    int tour = 0;
   pages = 0;
   int ok = pages;
   unsigned int nb = atoi(av[2]);
@@ -207,8 +207,10 @@ g_page_one = NULL;
       i++;
       x=0;
       y = 0;
+      tour++;
+      if (tour % 50 == 0)
+        my_free(str);
   }
-  my_free(str);
 
   return (0);
 }

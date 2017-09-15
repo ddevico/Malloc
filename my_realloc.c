@@ -2,15 +2,16 @@
 
 void *try_to_realloc(t_page *first, t_block *one, void *ptr, size_t size)
 {
-    if ((one->next)->busy == 0 && one->next && one->size + (one->next)->size - sizeof(t_block) >= size)
+    
+    if (one->size - sizeof(t_block) >= size)
+        return (ptr);
+    else if ((one->next)->busy == 0 && one->next && one->size + (one->next)->size - sizeof(t_block) >= size)
     {
         one->size += (one->next)->size;
         one->busy = size;
         one->next = (one->next)->next;
         return ptr;
     }
-    else if (one->size - sizeof(t_block) >= size)
-        return (ptr);
     else
     {
         my_free(ptr);

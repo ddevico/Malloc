@@ -42,6 +42,7 @@ typedef struct s_block
 }             t_block;
 
 t_page *g_page_one;
+void    *my_malloc(size_t size);
 void my_free(void *ptr);
 void *memory_plus(void *addr, size_t inc);
 int     busy_question(t_page *origin, size_t size);
