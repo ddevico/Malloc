@@ -19,7 +19,7 @@ void *try_to_realloc(t_page *first, t_block *one, void *ptr, size_t size)
     }
 }
 
-void *realloc(void *ptr, size_t size)
+void *my_realloc(void *ptr, size_t size)
 {
     t_page *first;
     t_block *one;
