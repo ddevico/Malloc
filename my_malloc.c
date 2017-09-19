@@ -3,6 +3,15 @@
 
 int pages;
 
+int     types_of_var(size_t page, size_t size)
+{
+    size = type_of_size(size);
+    //printf("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$size == %lu == %lu\n\n", size, page);
+    if (page == size && size != (LARGE * 100)+ sizeof(t_page))
+        return (1);
+    return -1;
+}
+
 void *memory_plus(void *addr, size_t inc)
 {
     int i;
@@ -34,11 +43,11 @@ void    impress()
         {
             if (x==0)
             {
-            printf("$$$$$$1er--->Decalage de 16 ou  plus entre ça et le debut --> block = & %lu | str = '%s' & %lu (a + b %% 16) | size = %lu | busy= %lu\n", (long)ok->block, memory_plus(ok->block, sizeof(t_block)), (long)memory_plus(ok->block, sizeof(t_block)), ok->block->size, ok->block->busy);
+            printf("$$$$$$1er--->Decalage de 16 ou  plus entre ça et le debut --> block = & %lu | strlen(s) == %lu | & %lu (a + b %% 16) | size = %lu | busy= %lu\n", (long)ok->block, strlen(memory_plus(ok->block, sizeof(t_block))), (long)memory_plus(ok->block, sizeof(t_block)), ok->block->size, ok->block->busy);
                 
                 x++;
             }else
-                printf("--->block = & %lu | str = '%s' & %lu (a + b %% 16) | size = %lu | busy= %lu\n", (long)ok->block, memory_plus(ok->block, sizeof(t_block)), (long)memory_plus(ok->block, sizeof(t_block)), ok->block->size, ok->block->busy);
+                printf("--->block = & %lu | strlen(s) == %lu | & %lu (a + b %% 16) | size = %lu | busy= %lu\n", (long)ok->block, strlen(memory_plus(ok->block, sizeof(t_block))), (long)memory_plus(ok->block, sizeof(t_block)), ok->block->size, ok->block->busy);
 
             if (!ok->block->next)
                 break;
@@ -103,25 +112,31 @@ void *place(t_page *page, size_t size, int busy)
     size_t ecart;
     t_block *block;
     t_block *prev;
-    printf("\norigin=%lu\n\n", (long)page);
+    //printf("\norigin=%lu\n\n", (long)page);
     
     prev = page->block;
-    printf("prev %lu = %lu\n\n", (long)prev, (long)page->block);
+    //printf("prev %lu = %lu\n\n", (long)prev, (long)page->block);
     if ((busy = busy_precision(page, busy)) > 0)
+    {
+        printf("precision\n\n");
         return (busyness(*page, size, busy));
+    }
     ecart = 0;
     int i = 0;
     while (prev && prev->next)
             prev = prev->next;
-    printf("prev %lu = %lu\n\n", (long)prev, (long)page->block);
-    
+    //printf("prev %lu = %lu\n\n", (long)prev, (long)page->block);
+    printf(" SIZE: %zu\n", page->size);
+    printf(" BEFORE: %zu Size asking = %lu\n", page->busy, size);
     block = memory_plus(prev, prev->size);
     block->size = (size + sizeof(t_block));
     block->busy = size;
+    
     block->next = NULL;
     prev->next = block;
     page->busy += block->size;
-    printf("result %lu + size = %lu + 16 = %lu\n\n", (long)prev, (long)block, (long)memory_plus(block, sizeof(t_block)));
+    printf("AFTER: %zu\n", page->busy);
+    //printf("result %lu + size = %lu + 16 = %lu\n\n", (long)prev, (long)block, (long)memory_plus(block, sizeof(t_block)));
     
     prev = page->block;
     return (memory_plus(block, sizeof(t_block)));
@@ -130,7 +145,7 @@ void *place(t_page *page, size_t size, int busy)
 void *not_find(size_t size)
 {
     pages++;
-    
+    printf("NOTFIND\n");
     t_page *origin;
     t_page *add;
     t_block *block;
@@ -175,9 +190,10 @@ void    *my_malloc(size_t size)
     origin = g_page_one;
     while (origin)
     {
-        if (origin->size - origin->busy >= size + sizeof(t_block) && (busy = busy_question(origin, size)) != -1)
+        if (origin->size >= origin->busy && types_of_var(origin->size, size) && (origin->size - origin->busy >= size + sizeof(t_block)) && (busy = busy_question(origin, size)) != -1)
         {
-            printf("busy = %d origin=%lu\n\n", busy, (long)origin);
+            
+        //    printf("busy = %d origin=%lu\n\n", busy, (long)origin);
           //busy = -1-->no place || 0->size | 1 --> size +t_block
           origin->busy += ((busy == 0) ? size : (size + sizeof(t_block)));
           return (place(origin, size, busy));
@@ -226,8 +242,8 @@ g_page_one = NULL;
 
 int main()
 {
-    int i =0;
-    char *s1, *s2, *s3, *s4, *s5, *s6, *s7, *s8, *s9;
+    int i =-1;
+    char *s1, *s2, *s3, *s4, *s5, *s6, *s7, *s8, *s9, *s10;
 
     s2 = (char *)my_malloc(sizeof(char) * 5);
     s2 = (s2 ? "abcd\0" : s2);
@@ -235,68 +251,81 @@ int main()
  
     s4 = (char *)my_malloc(sizeof(char) * 100);
     if (s4){
-        s4[i] = 'q';
-        while (i++ < 99)
+        while (++i < 99)
             s4[i] = 'a';
         s4[i] = '\0';
-        i=0;
+        i=-1;
     }
-    printf("s4 = %s\n", s4);
+//    printf("s4 = %s || %lu\n", s4, strlen(s4));
     
     s5 = (char *)my_malloc(sizeof(char) * 300);
     if (s5){
-        s5[i] = 'q';
-        while (i++ < 299)
+        while (++i < 299)
             s5[i] = 'a';
         s5[i] = '\0';        
-        i=0;
+        i=-1;
     }
-    printf("s5 = %s\n", s5);
+    //printf("s5 = %s\n", s5);
     
     s6 = (char *)my_malloc(sizeof(char) * 1000);
     if (s6){
-        s6[i] = 'q';
-        while (i++ < 999)
+        while (++i < 999)
             s6[i] = 'a';
         s6[i] = '\0';
-        i=0;
+        i=-1;
     }
-    printf("s6 = %s\n", s6);
+    //printf("s6 = %s\n", s6);
     
     s7 = (char *)my_malloc(sizeof(char) * 3000);
     if (s7){
-        s7[i] = 'q';
-        while (i++ < 2999)
+        while (++i < 2999)
             s7[i] = 'a';
         s7[i] = '\0';
-        i=0;
+        i=-1;
     }
-    printf("s7 = %s\n", s7);
+    //printf("s7 = %s\n", s7);
     /*
     s8 = (char *)my_malloc(sizeof(char) * 10000);
     if (s8){
-        s8[i] = 'q';
-        while (i++ < 9999)
+        while (++i < 9999)
             s8[i] = 'a';
         s8[i] = '\0';
-        i=0;
+        i=-1;
     }
     printf("s8 = %s\n", s8);
+    */
     
     s3 = (char *)my_malloc(sizeof(char) * 10);
-    s3 = (s3 ? "abcdefghi\0" : s3);
-    printf("s = %s\n", s3);
+
+    if (s3){
+        while (++i < 10)
+            s3[i] = 'q';
+        s3[i] = '\0';
+        i=-1;
+    }
+    printf("s3 = %s\n", s3);
     
     s9 = (char *)my_malloc(sizeof(char) * 30000);
+    
     if (s9){
-        s9[i] = 'q';
-        while (i++ < 29999)
+        while (++i < 29999)
             s9[i] = 'a';
         s9[i] = '\0';
-        i=0;
+        i=-1;
     }
-    printf("s = %s\n", s9);
-    */
+  //  printf("s = %s\n", s9);
+
+    s10 = (char *)my_malloc(sizeof(char) * 40000);
+    printf("RETOUR S10\n");
+    
+    if (s10){
+        while (++i < 29999)
+            s10[i] = 'a';
+        s10[i] = '\0';
+        i=-1;
+    }
+//    printf("s = %s\n", s10);
+
     s1 = (char *)my_malloc(sizeof(char) *2);
     s1 = (s1 ? "ab\0" : s1);
     printf("s = %s\n\n", s1);
@@ -304,7 +333,8 @@ int main()
     printf("ADRESSE DE 2 -- > %lu\n\n", (long)s1);
 //commencement
 //my_realloc(s1, 12);
-    impress();
+//my_free(s3);
+    //impress();
 
     return 0;
 }
