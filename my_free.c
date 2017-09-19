@@ -62,7 +62,8 @@ t_page   *delete_page(t_page *origin, t_page *page)
     if (origin && origin->next)
     {
         origin->next = (origin->next)->next;
-        bzero((void*)page, page->size);
+        //!!!!!!!!!!!!!!! bzero((void*)page, page->size);
+        munmap((void*)page, page->size);
         return (origin->next);
     }
     return NULL;
