@@ -10,6 +10,7 @@ int     busy_precision(t_page *origin, size_t size)
     while (prev)
     {
         index++;
+        //regarder la comparaison des size_t
         if ((prev->busy > 0 && ((prev->size - prev->busy - sizeof(t_block)) > sizeof(t_block) + size))
         || (prev->busy == 0 && prev->size - sizeof(t_block) >= size))
             return (index);
@@ -31,6 +32,8 @@ int     busy_question(t_page *origin, size_t size)
     while (prev)
     {
         index++;
+        //regarder la comparaison des size_t
+        
         if (prev->busy > 0 && ((prev->size - prev->busy - sizeof(t_block)) > sizeof(t_block) + size))
             return (1);
         else if (prev->busy == 0 && prev->size - sizeof(t_block) >= size)

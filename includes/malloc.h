@@ -48,6 +48,8 @@ void *my_realloc(void *ptr, size_t size);
 void *memory_plus(void *addr, size_t inc);
 int     busy_question(t_page *origin, size_t size);
 int     busy_precision(t_page *origin, size_t size);
+size_t  type_of_size(size_t size);
+
 
 
 #endif
