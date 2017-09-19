@@ -6,10 +6,9 @@ int pages;
 int     types_of_var(size_t page, size_t size)
 {
     size = type_of_size(size);
-    //printf("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$size == %lu == %lu\n\n", size, page);
-    if (page == size && size != (LARGE * 100)+ sizeof(t_page))
+    if (page == size && size != ((LARGE * 100)+ sizeof(t_page)))
         return (1);
-    return -1;
+    return (0);
 }
 
 void *memory_plus(void *addr, size_t inc)
@@ -33,11 +32,12 @@ void    impress()
     t_page *ok;
     t_block *oki;
     printf("!!!!!!!!!!!!!!!!!!!!\n\nVoici le contenu de la globale\n\n");
+    printf("TINY = %lu | SMALL = %lu \n\n", TINY, SMALL);
     ok = g_page_one;
     while (ok)
     {
 
-        printf("page = %lu || SIZE === %lu  ||| busy = %lu ||| sizeof(t_page) = %lu | sizeof(tblock) = %lu\n", (long)ok, ok->size, ok->busy, sizeof(t_page), sizeof(t_block));
+        printf(" page = %lu || SIZE === %lu  ||| busy = %lu ||| sizeof(t_page) = %lu | sizeof(tblock) = %lu\n", (long)ok, ok->size, ok->busy, sizeof(t_page), sizeof(t_block));
         oki = ok->block;
         while (ok->block != NULL)
         {
@@ -72,7 +72,7 @@ size_t  type_of_size(size_t size)
     }
     else if (size <= SMALL)
     {
-        return SMALL;
+        return SMALL * 10;
         //val = (SMALL * 100)+ sizeof(t_page);
 
     }
@@ -127,14 +127,14 @@ void *place(t_page *page, size_t size, int busy)
             prev = prev->next;
     //printf("prev %lu = %lu\n\n", (long)prev, (long)page->block);
     printf(" SIZE: %zu\n", page->size);
-    printf(" BEFORE: %zu Size asking = %lu\n", page->busy, size);
+    printf(" BEFORE: %zu Size asking = %lu\n", page->busy, size + sizeof(t_block));
     block = memory_plus(prev, prev->size);
     block->size = (size + sizeof(t_block));
     block->busy = size;
     
     block->next = NULL;
     prev->next = block;
-    page->busy += block->size;
+    //page->busy += block->size;
     printf("AFTER: %zu\n", page->busy);
     //printf("result %lu + size = %lu + 16 = %lu\n\n", (long)prev, (long)block, (long)memory_plus(block, sizeof(t_block)));
     
@@ -162,7 +162,7 @@ void *not_find(size_t size)
     add->size = size_type;
     block = memory_plus(add, sizeof(t_page));
     block->size = size + sizeof(t_block);
-    block->busy = size;
+    block->busy = size; 
     block->next = NULL;
     add->block = block;
     add->next = NULL;
@@ -190,8 +190,12 @@ void    *my_malloc(size_t size)
     origin = g_page_one;
     while (origin)
     {
+        printf("origin->size(%lu) - origin->busy(%lu) == %lu && size = %lu\n\n", origin->size, origin->busy, origin->size - origin->busy, size);
         if (origin->size >= origin->busy && types_of_var(origin->size, size) && (origin->size - origin->busy >= size + sizeof(t_block)) && (busy = busy_question(origin, size)) != -1)
         {
+        printf("2) origin->size(%lu) - origin->busy(%lu) == %lu && size = %lu\n\n", origin->size, origin->busy, origin->size - origin->busy, size);
+            
+            printf("Enter\n");
             
         //    printf("busy = %d origin=%lu\n\n", busy, (long)origin);
           //busy = -1-->no place || 0->size | 1 --> size +t_block
@@ -200,6 +204,7 @@ void    *my_malloc(size_t size)
         }
         origin = origin->next;
     }
+    printf("not enter \n");
     return (not_find(size));
 }
 /*
@@ -305,21 +310,21 @@ int main()
     }
     printf("s3 = %s\n", s3);
     
-    s9 = (char *)my_malloc(sizeof(char) * 30000);
+    s9 = (char *)my_malloc(sizeof(char) * 15000);
     
     if (s9){
-        while (++i < 29999)
+        while (++i < 14999)
             s9[i] = 'a';
         s9[i] = '\0';
         i=-1;
     }
   //  printf("s = %s\n", s9);
 
-    s10 = (char *)my_malloc(sizeof(char) * 40000);
+    s10 = (char *)my_malloc(sizeof(char) * 16000);
     printf("RETOUR S10\n");
     
     if (s10){
-        while (++i < 29999)
+        while (++i < 15999)
             s10[i] = 'a';
         s10[i] = '\0';
         i=-1;
@@ -334,7 +339,7 @@ int main()
 //commencement
 //my_realloc(s1, 12);
 //my_free(s3);
-    //impress();
+    impress();
 
     return 0;
 }
