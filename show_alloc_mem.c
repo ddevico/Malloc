@@ -14,11 +14,11 @@ void show_alloc_mem()
   while (page)
   {
     block = page->block;
-    if (page->size == (TINY * 100)+ sizeof(t_page))
+    if (page->size == (TINY))
       printf("TINY: 0x%lX\n", (unsigned long)page);
-    if (page->size == (SMALL * 100)+ sizeof(t_page))
+    else if (page->size == (SMALL))
       printf("SMALL: 0x%lX\n", (unsigned long)page);
-    if (page->size == (LARGE * 100)+ sizeof(t_page))
+    else
       printf("LARGE: 0x%lX\n", (unsigned long)page);
     while (page->block != NULL)
     {
