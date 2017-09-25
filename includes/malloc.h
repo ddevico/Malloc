@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tktorza <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tktorza <tktorza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/04 14:46:04 by tktorza           #+#    #+#             */
-/*   Updated: 2017/09/04 14:46:38 by tktorza          ###   ########.fr       */
+/*   Updated: 2017/09/20 10:37:53 by davydevico       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 #include <unistd.h>
 #include <string.h>
 
-# define TINY 2*getpagesize()
-# define SMALL 4*getpagesize()
-# define LARGE 8*getpagesize()
+# define TINY 200
+# define SMALL 400
+# define LARGE 1000
 
 typedef struct s_page
 {

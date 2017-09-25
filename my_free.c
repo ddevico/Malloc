@@ -125,6 +125,7 @@ void my_free(void *ptr)
                plus = begin->size;
                if (begin->next && (begin->next)->busy == 0)
                {
+                  printf("n'est pas cense etre laaaa\n\n");
                    while((begin->next) && (begin->next)->busy == 0)
                    {
                     plus += (begin->next)->size;
@@ -132,7 +133,6 @@ void my_free(void *ptr)
                    }
                    first->block->size = plus;
                     bzero(memory_plus(first->block, sizeof(t_block)), first->block->size - sizeof(t_block));
-
                }
              //pq pas opti en verifiant si le bloc qui suit n'est pas vide pour en faire
              //un gros (en recurence)

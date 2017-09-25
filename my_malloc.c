@@ -1,6 +1,5 @@
 #include "includes/malloc.h"
 
-
 int pages;
 
 int     types_of_var(size_t page, size_t size)
@@ -23,8 +22,6 @@ void *memory_plus(void *addr, size_t inc)
     }
     return (addr);
 }
-
-
 
 void    impress()
 {
@@ -67,18 +64,18 @@ size_t  type_of_size(size_t size)
 
     if (size <= TINY)
     {
-        return TINY;
+        return TINY * 100;
      //   val = (TINY * 100)+ sizeof(t_page);
     }
     else if (size <= SMALL)
     {
-        return SMALL * 10;
+        return SMALL * 100;
         //val = (SMALL * 100)+ sizeof(t_page);
-
     }
     else
     {
-      val = size * 2 + sizeof(t_page);
+      //val = size * 100 + sizeof(t_page);
+      val = LARGE * 100 + sizeof(t_page);
     }
     return (val);
 }
@@ -119,6 +116,7 @@ void *place(t_page *page, size_t size, int busy)
     if ((busy = busy_precision(page, busy)) > 0)
     {
         printf("precision\n\n");
+        printf("buzyyy placeeeeee %lu\n", busy);
         return (busyness(*page, size, busy));
     }
     ecart = 0;
@@ -194,12 +192,9 @@ void    *my_malloc(size_t size)
         if (origin->size >= origin->busy && types_of_var(origin->size, size) && (origin->size - origin->busy >= size + sizeof(t_block)) && (busy = busy_question(origin, size)) != -1)
         {
         printf("2) origin->size(%lu) - origin->busy(%lu) == %lu && size = %lu\n\n", origin->size, origin->busy, origin->size - origin->busy, size);
-
             printf("Enter\n");
-
-        //    printf("busy = %d origin=%lu\n\n", busy, (long)origin);
-          //busy = -1-->no place || 0->size | 1 --> size +t_block
           origin->busy += ((busy == 0) ? size : (size + sizeof(t_block)));
+          printf("origin buzy nouveauuuuuuuu%lu\n", (long)origin->busy);
           return (place(origin, size, busy));
         }
         origin = origin->next;
@@ -207,145 +202,104 @@ void    *my_malloc(size_t size)
     printf("not enter \n");
     return (not_find(size));
 }
-/*
-int main(int ac, char **av)
-{
-    int tour = 0;
-  pages = 0;
-  int ok = pages;
-  unsigned int nb = atoi(av[2]);
-  char *str1;
-  int y = 0;
-  int i = 0;
-g_page_one = NULL;
-  while (i < nb)
-  {
-      if (ok != pages){
-          ok = pages;
-   // impress();
-      }
-      str = (char *)my_malloc((sizeof(char)*strlen(av[1]))+1);
-      int x = 0;
-      while (x < strlen(av[1]))
-      {
-          str[y] = av[1][x];
-          y++;
-          x++;
-      }
-      str[y] = '\0';
-      i++;
-      x=0;
-      y = 0;
-      tour++;
-      if (tour % 50 == 0)
-        my_free(str);
-  }
-
-  return (0);
-}
-*/
 
 int main()
 {
     int i =-1;
     char *s1, *s2, *s3, *s4, *s5, *s6, *s7, *s8, *s9, *s10,*s11,*s12,*s13,*s14,*s15,*s16,*s17,*s18,*s19,*s20;
 
-    s2 = (char *)my_malloc(sizeof(char) * 5);
-    s2 = (s2 ? "abcd\0" : s2);
-    printf("s2 = %s\n", s2);
-
-    s4 = (char *)my_malloc(sizeof(char) * 100);
-    if (s4){
-        while (++i < 99)
-            s4[i] = 'a';
-        s4[i] = '\0';
+    s1 = (char *)my_malloc(sizeof(char) * 21);
+    if (s1){
+        while (++i < 10)
+            s1[i] = 'a';
+        s1[i] = '\0';
         i=-1;
     }
-//    printf("s4 = %s || %lu\n", s4, strlen(s4));
 
-    s5 = (char *)my_malloc(sizeof(char) * 300);
-    if (s5){
-        while (++i < 299)
-            s5[i] = 'a';
-        s5[i] = '\0';
+    s2 = (char *)my_malloc(sizeof(char) * 500);
+    if (s2){
+        while (++i < 10)
+            s2[i] = 'b';
+        s2[i] = '\0';
         i=-1;
     }
-    //printf("s5 = %s\n", s5);
 
-    s6 = (char *)my_malloc(sizeof(char) * 1000);
-    if (s6){
-        while (++i < 999)
-            s6[i] = 'a';
-        s6[i] = '\0';
-        i=-1;
-    }
-    //printf("s6 = %s\n", s6);
-
-    s7 = (char *)my_malloc(sizeof(char) * 3000);
-    if (s7){
-        while (++i < 2999)
-            s7[i] = 'a';
-        s7[i] = '\0';
-        i=-1;
-    }
-    //printf("s7 = %s\n", s7);
-    /*
-    s8 = (char *)my_malloc(sizeof(char) * 10000);
-    if (s8){
-        while (++i < 9999)
-            s8[i] = 'a';
-        s8[i] = '\0';
-        i=-1;
-    }
-    printf("s8 = %s\n", s8);
-    */
-
-    s3 = (char *)my_malloc(sizeof(char) * 10);
-
+    s3 = (char *)my_malloc(sizeof(char) * 200);
     if (s3){
         while (++i < 10)
-            s3[i] = 'q';
+            s3[i] = 'c';
         s3[i] = '\0';
         i=-1;
     }
-    printf("s3 = %s\n", s3);
 
-    s9 = (char *)my_malloc(sizeof(char) * 15000);
+    s4 = (char *)my_malloc(sizeof(char) * 10);
+    if (s4){
+        while (++i < 10)
+            s4[i] = 'd';
+        s4[i] = '\0';
+        i=-1;
+    }
 
+    s5 = (char *)my_malloc(sizeof(char) * 10);
+    if (s5){
+        while (++i < 10)
+            s5[i] = 'e';
+        s5[i] = '\0';
+        i=-1;
+    }
+
+    s6 = (char *)my_malloc(sizeof(char) * 400);
+    if (s6){
+        while (++i < 10)
+            s6[i] = 'f';
+        s6[i] = '\0';
+        i=-1;
+    }
+
+    s7 = (char *)my_malloc(sizeof(char) * 400);
+    if (s7){
+        while (++i < 10)
+            s7[i] = 'g';
+        s7[i] = '\0';
+        i=-1;
+    }
+
+    s8 = (char *)my_malloc(sizeof(char) * 1000);
+    if (s8){
+        while (++i < 10)
+            s8[i] = 'h';
+        s8[i] = '\0';
+        i=-1;
+    }
+    s9 = (char *)my_malloc(sizeof(char) * 300);
     if (s9){
-        while (++i < 14999)
-            s9[i] = 'a';
+        while (++i < 10)
+            s9[i] = 'i';
         s9[i] = '\0';
         i=-1;
     }
-  //  printf("s = %s\n", s9);
 
-    s10 = (char *)my_malloc(sizeof(char) * 16000);
-    printf("RETOUR S10\n");
-
+    s10 = (char *)my_malloc(sizeof(char) * 9000);
     if (s10){
-        while (++i < 15999)
-            s10[i] = 'a';
+        while (++i < 10)
+            s10[i] = 'j';
         s10[i] = '\0';
         i=-1;
     }
-//    printf("s = %s\n", s10);
 
-    s1 = (char *)my_malloc(sizeof(char) *2);
-    s1 = (s1 ? "ab\0" : s1);
-    printf("s = %s\n\n", s1);
-
-    printf("ADRESSE DE 2 -- > %lu\n\n", (long)s1);
-//commencement
-//my_realloc(s1, 12);
-//my_free(s3);
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n");
-impress();
-printf("\n\n\n");
-
+    impress();
+    printf("\n\n\n\n\n\n\n");
     show_alloc_mem();
-    //my_free(s4);
-    //show_alloc_mem();
-//impress();
+    my_free(s5);
+    show_alloc_mem();
+    s20 = (char *)my_malloc(sizeof(char) * 12);
+    show_alloc_mem();
+    if (s20){
+        while (++i < 10)
+            s5[i] = 'p';
+        s5[i] = '\0';
+        i=-1;
+    }
+    show_alloc_mem();
     return 0;
 }

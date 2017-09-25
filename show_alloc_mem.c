@@ -10,23 +10,22 @@ void show_alloc_mem()
   page = g_page_one;
   if (page == NULL)
     printf("No allocation\n");
-  //printf("%zu\n", page->size);
   while (page)
   {
     block = page->block;
-    if (page->size == (TINY))
+    if (page->size <= (TINY * 100))
       printf("TINY: 0x%lX\n", (unsigned long)page);
-    else if (page->size == (SMALL))
+    else if (page->size <= (SMALL * 100))
       printf("SMALL: 0x%lX\n", (unsigned long)page);
     else
       printf("LARGE: 0x%lX\n", (unsigned long)page);
     while (page->block != NULL)
     {
       n += page->block->size;
-      printf("0x%lX - 0x%lX : %lu octets\n",
+      printf("0x%lX - 0x%lX : %lu octets, %s\n",
   	       (unsigned long)page->block,
   	       (unsigned long)page->block + page->block->size,
-  	       page->block->size);
+  	       page->block->size, memory_plus(page->block, sizeof(t_block)));
       page->block = page->block->next;
     }
     page->block = block;
