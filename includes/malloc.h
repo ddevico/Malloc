@@ -22,7 +22,7 @@
 #include <unistd.h>
 #include <string.h>
 
-# define TINY 200
+# define TINY 300
 # define SMALL 400
 # define LARGE 1000
 

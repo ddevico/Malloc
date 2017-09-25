@@ -22,10 +22,11 @@ void show_alloc_mem()
     while (page->block != NULL)
     {
       n += page->block->size;
-      printf("0x%lX - 0x%lX : %lu octets, %s\n",
+      printf("0x%lX - 0x%lX : %lu octets, %s | var busy memory = %lu\n",
   	       (unsigned long)page->block,
   	       (unsigned long)page->block + page->block->size,
-  	       page->block->size, memory_plus(page->block, sizeof(t_block)));
+           page->block->size, memory_plus(page->block, sizeof(t_block)),
+          page->block->busy);
       page->block = page->block->next;
     }
     page->block = block;

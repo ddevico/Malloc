@@ -124,8 +124,8 @@ void *place(t_page *page, size_t size, int busy)
     while (prev && prev->next)
             prev = prev->next;
     //printf("prev %lu = %lu\n\n", (long)prev, (long)page->block);
-    printf(" SIZE: %zu\n", page->size);
-    printf(" BEFORE: %zu Size asking = %lu\n", page->busy, size + sizeof(t_block));
+    //printf(" SIZE: %zu\n", page->size);
+    //printf(" BEFORE: %zu Size asking = %lu\n", page->busy, size + sizeof(t_block));
     block = memory_plus(prev, prev->size);
     block->size = (size + sizeof(t_block));
     block->busy = size;
@@ -133,8 +133,8 @@ void *place(t_page *page, size_t size, int busy)
     block->next = NULL;
     prev->next = block;
     //page->busy += block->size;
-    printf("AFTER: %zu\n", page->busy);
-    //printf("result %lu + size = %lu + 16 = %lu\n\n", (long)prev, (long)block, (long)memory_plus(block, sizeof(t_block)));
+    //printf("AFTER: %zu\n", page->busy);
+    ////printf("result %lu + size = %lu + 16 = %lu\n\n", (long)prev, (long)block, (long)memory_plus(block, sizeof(t_block)));
 
     prev = page->block;
     return (memory_plus(block, sizeof(t_block)));
@@ -143,7 +143,7 @@ void *place(t_page *page, size_t size, int busy)
 void *not_find(size_t size)
 {
     pages++;
-    printf("NOTFIND\n");
+    //printf("NOTFIND\n");
     t_page *origin;
     t_page *add;
     t_block *block;
@@ -188,18 +188,19 @@ void    *my_malloc(size_t size)
     origin = g_page_one;
     while (origin)
     {
-        printf("origin->size(%lu) - origin->busy(%lu) == %lu && size = %lu\n\n", origin->size, origin->busy, origin->size - origin->busy, size);
+        //printf("origin->size(%lu) - origin->busy(%lu) == %lu && size = %lu\n\n", origin->size, origin->busy, origin->size - origin->busy, size);
+        //regarder 3eme condition
         if (origin->size >= origin->busy && types_of_var(origin->size, size) && (origin->size - origin->busy >= size + sizeof(t_block)) && (busy = busy_question(origin, size)) != -1)
         {
-        printf("2) origin->size(%lu) - origin->busy(%lu) == %lu && size = %lu\n\n", origin->size, origin->busy, origin->size - origin->busy, size);
-            printf("Enter\n");
+        //printf("2) origin->size(%lu) - origin->busy(%lu) == %lu && size = %lu\n\n", origin->size, origin->busy, origin->size - origin->busy, size);
+            //printf("Enter\n");
           origin->busy += ((busy == 0) ? size : (size + sizeof(t_block)));
-          printf("origin buzy nouveauuuuuuuu%lu\n", (long)origin->busy);
+          //printf("origin buzy nouveauuuuuuuu%lu\n", (long)origin->busy);
           return (place(origin, size, busy));
         }
         origin = origin->next;
     }
-    printf("not enter \n");
+    //printf("not enter \n");
     return (not_find(size));
 }
 
@@ -240,7 +241,7 @@ int main()
         i=-1;
     }
 
-    s5 = (char *)my_malloc(sizeof(char) * 10);
+    s5 = (char *)my_malloc(sizeof(char) * 11);
     if (s5){
         while (++i < 10)
             s5[i] = 'e';
@@ -286,20 +287,185 @@ int main()
         s10[i] = '\0';
         i=-1;
     }
+    
+   
+    
+    show_alloc_mem();
+    /*impress();
+    printf("\n\n\n\n\n\n\n");*/my_free(s4);my_free(s3);
 
-    impress();
-    printf("\n\n\n\n\n\n\n");
     show_alloc_mem();
-    my_free(s5);
+    s11 = (char *)my_malloc(sizeof(char) * 205);
+    if (s11){
+        while (++i < 100)
+            s11[i] = '1';
+        s11[i] = '\0';
+        i=-1;
+    }
+ 
+    printf("\n\n\nnew\n\n\n");
     show_alloc_mem();
-    s20 = (char *)my_malloc(sizeof(char) * 12);
+    
+    /*my_free(s1);
+
+    show_alloc_mem();
+    printf("asking::: %lu\n", sizeof(t_block));
+    
+    s20 = (char *)my_malloc(sizeof(char) * 20);
+    printf("asking::: %lu\n", sizeof(char) * 12);
+    
     show_alloc_mem();
     if (s20){
         while (++i < 10)
-            s5[i] = 'p';
+            s20[i] = 'p';
+        s20[i] = '\0';
+        i=-1;
+    }
+    my_free(s5);
+    printf("\n\n\nnew\n\n\n");
+    show_alloc_mem();*/
+
+    my_free(s1);
+    show_alloc_mem();
+    my_free(s2);
+    show_alloc_mem();
+    my_free(s3);
+    show_alloc_mem();
+    my_free(s4);
+    show_alloc_mem();
+    my_free(s5);
+    show_alloc_mem();
+    my_free(s6);
+    show_alloc_mem();
+    my_free(s7);
+    show_alloc_mem();
+    my_free(s8);
+    show_alloc_mem();
+    my_free(s9);
+    show_alloc_mem();
+    my_free(s10);
+    show_alloc_mem();
+    my_free(s11);
+    show_alloc_mem();
+    my_free(s20);
+    show_alloc_mem();
+ i =-1;
+
+    s1 = (char *)my_malloc(sizeof(char) * 21);
+    if (s1){
+        while (++i < 10)
+            s1[i] = 'a';
+        s1[i] = '\0';
+        i=-1;
+    }
+
+    s2 = (char *)my_malloc(sizeof(char) * 500);
+    if (s2){
+        while (++i < 10)
+            s2[i] = 'b';
+        s2[i] = '\0';
+        i=-1;
+    }
+
+    s3 = (char *)my_malloc(sizeof(char) * 200);
+    if (s3){
+        while (++i < 10)
+            s3[i] = 'c';
+        s3[i] = '\0';
+        i=-1;
+    }
+
+    s4 = (char *)my_malloc(sizeof(char) * 10);
+    if (s4){
+        while (++i < 10)
+            s4[i] = 'd';
+        s4[i] = '\0';
+        i=-1;
+    }
+
+    s5 = (char *)my_malloc(sizeof(char) * 11);
+    if (s5){
+        while (++i < 10)
+            s5[i] = 'e';
         s5[i] = '\0';
         i=-1;
     }
+
+    s6 = (char *)my_malloc(sizeof(char) * 400);
+    if (s6){
+        while (++i < 10)
+            s6[i] = 'f';
+        s6[i] = '\0';
+        i=-1;
+    }
+
+    s7 = (char *)my_malloc(sizeof(char) * 400);
+    if (s7){
+        while (++i < 10)
+            s7[i] = 'g';
+        s7[i] = '\0';
+        i=-1;
+    }
+
+    s8 = (char *)my_malloc(sizeof(char) * 1000);
+    if (s8){
+        while (++i < 10)
+            s8[i] = 'h';
+        s8[i] = '\0';
+        i=-1;
+    }
+    s9 = (char *)my_malloc(sizeof(char) * 300);
+    if (s9){
+        while (++i < 10)
+            s9[i] = 'i';
+        s9[i] = '\0';
+        i=-1;
+    }
+
+    s10 = (char *)my_malloc(sizeof(char) * 9000);
+    if (s10){
+        while (++i < 10)
+            s10[i] = 'j';
+        s10[i] = '\0';
+        i=-1;
+    }
+    
+   
+    
     show_alloc_mem();
+    /*impress();
+    printf("\n\n\n\n\n\n\n");*/my_free(s4);my_free(s3);
+
+    show_alloc_mem();
+    s11 = (char *)my_malloc(sizeof(char) * 205);
+    if (s11){
+        while (++i < 100)
+            s11[i] = '1';
+        s11[i] = '\0';
+        i=-1;
+    }
+ 
+    printf("\n\n\nnew\n\n\n");
+    show_alloc_mem();
+    
+    /*my_free(s1);
+
+    show_alloc_mem();
+    printf("asking::: %lu\n", sizeof(t_block));
+    
+    s20 = (char *)my_malloc(sizeof(char) * 20);
+    printf("asking::: %lu\n", sizeof(char) * 12);
+    
+    show_alloc_mem();
+    if (s20){
+        while (++i < 10)
+            s20[i] = 'p';
+        s20[i] = '\0';
+        i=-1;
+    }
+    my_free(s5);
+    printf("\n\n\nnew\n\n\n");
+    show_alloc_mem();*/
+
     return 0;
 }

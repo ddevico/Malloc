@@ -84,7 +84,13 @@ void    try_to_delete_page(void)
             busy += g_page_one->block->busy;
             g_page_one->block = g_page_one->block->next;
         }
-        if (busy == 0)
+        if (busy == 0 && (void *)g_page_one == (void *)first)
+        {
+            first = g_page_one->next;
+            munmap((void*)g_page_one, g_page_one->size);
+            g_page_one = first;
+        }
+        else if (busy == 0)
             g_page_one = delete_page(first, g_page_one);
         else
         {
@@ -118,8 +124,8 @@ void my_free(void *ptr)
           printf("%lu ==> %lu\n", (long)ptr, (long)memory_plus(first->block, sizeof(t_block)));
           if (ptr == memory_plus(first->block, sizeof(t_block)))
            {
-               printf("--->block = & %lu | str = '' & %lu (a + b %% 16) | size = %lu\n", (long)first->block,  (long)memory_plus(first->block, sizeof(t_block)), first->block->size);
-               bzero(memory_plus(first->block, sizeof(t_block)), first->block->busy);
+               printf("--->block = & %lu | str = '%s' & %lu (a + b %% 16) | size = %lu\n", (long)first->block, (char *)memory_plus(first->block, sizeof(t_block)), (long)memory_plus(first->block, sizeof(t_block)), first->block->size);
+              bzero(memory_plus(first->block, sizeof(t_block)), first->block->busy);
                first->block->busy = 0;
                begin = first->block;
                plus = begin->size;
@@ -132,9 +138,18 @@ void my_free(void *ptr)
                     begin = begin->next;
                    }
                    first->block->size = plus;
+                   first->block->next = begin->next;
                     bzero(memory_plus(first->block, sizeof(t_block)), first->block->size - sizeof(t_block));
                }
-             //pq pas opti en verifiant si le bloc qui suit n'est pas vide pour en faire
+               else if (!begin->next)
+               {
+                printf("dernier maillon frero || disparition du maillon\n\n");      
+                   first->block = one;
+                   while ((void *)((first->block)->next) && (void *)((first->block)->next) != (void *)begin)
+                        first->block = first->block->next;
+                    first->block->next = NULL;
+            }
+               //pq pas opti en verifiant si le bloc qui suit n'est pas vide pour en faire
              //un gros (en recurence)
                first->block = one;
 
