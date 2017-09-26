@@ -203,7 +203,6 @@ void    *my_malloc(size_t size)
     //printf("not enter \n");
     return (not_find(size));
 }
-<<<<<<< HEAD
 
 void    *my_calloc(size_t num, size_t nsize)
 {
@@ -224,7 +223,7 @@ void    *my_calloc(size_t num, size_t nsize)
   	str = (char *)ret;
     if (!ret)
       return (NULL);
-    //ft_memset(ret, 0, size);
+    ft_memset(ret, 0, size);
   	/*while (i < size)
   	{
   		str[i] = car;
@@ -509,5 +508,3 @@ int main()
 
     return 0;
 }
-=======
->>>>>>> 0344448fa51738c4dc7a20ab3c5a3bd1a5b14821
