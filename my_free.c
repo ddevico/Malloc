@@ -125,7 +125,7 @@ void my_free(void *ptr)
           if (ptr == memory_plus(first->block, sizeof(t_block)))
            {
                printf("--->block = & %lu | str = '%s' & %lu (a + b %% 16) | size = %lu\n", (long)first->block, (char *)memory_plus(first->block, sizeof(t_block)), (long)memory_plus(first->block, sizeof(t_block)), first->block->size);
-              bzero(memory_plus(first->block, sizeof(t_block)), first->block->busy);
+              ft_bzero(memory_plus(first->block, sizeof(t_block)), first->block->busy);
                first->block->busy = 0;
                begin = first->block;
                plus = begin->size;
@@ -139,7 +139,7 @@ void my_free(void *ptr)
                    }
                    first->block->size = plus;
                    first->block->next = begin->next;
-                    bzero(memory_plus(first->block, sizeof(t_block)), first->block->size - sizeof(t_block));
+                    ft_bzero(memory_plus(first->block, sizeof(t_block)), first->block->size - sizeof(t_block));
                }
                else if (!begin->next)
                {
@@ -152,7 +152,6 @@ void my_free(void *ptr)
                //pq pas opti en verifiant si le bloc qui suit n'est pas vide pour en faire
              //un gros (en recurence)
                first->block = one;
-
                return;
            }
             first->block = first->block->next;
@@ -160,5 +159,6 @@ void my_free(void *ptr)
         first->block = one;
         first = first->next;
     }
+    
     printf("\n\n!!!!!!!!!!!!!!!!!!!!\n\n");
 }

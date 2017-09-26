@@ -3,23 +3,29 @@
 void *try_to_realloc(t_page *first, t_block *one, void *ptr, size_t size)
 {
     void *next;
-    int i;
 
+    if (size == 0 && ptr != NULL)
+    {
+        my_free(ptr);
+        return ((void *)42);
+    }
     if (one->size - sizeof(t_block) >= size)
+    {
+        one->busy = size;
         return (ptr);
+    }
     else if (one->next && (one->next)->busy == 0 && one->size + (one->next)->size - sizeof(t_block) >= size)
     {
         one->size += (one->next)->size;
         one->busy = size;
         one->next = (one->next)->next;
-        return ptr;
+        return (ptr);
     }
     else
     {
-        i=-1;
+        printf("3eme cas \n\n");
         next = my_malloc(size);
-        while (++i < one->busy)
-            next[i] = ptr[i];
+        ft_memcpy(next, ptr, ((size < one->busy) ? size : one->busy));
         my_free(ptr);
         return(next);
     }
@@ -36,13 +42,18 @@ void *my_realloc(void *ptr, size_t size)
         one = first->block;
         while (first->block != NULL)
         {
-            if (ptr == memory_plus(first->block, sizeof(t_block)))
-                return (try_to_realloc(first, first->block, ptr, size));
+            if (ptr && ptr == memory_plus(first->block, sizeof(t_block)))
+             {
+                ptr = try_to_realloc(first, first->block, ptr, size);
+                first->block = one;
+                break;
+             }    
             first->block = first->block->next;            
         }           
         first->block = one;
         first = first->next;
     }
+    first = g_page_one;
 
-    return(NULL);
+    return ((ptr == NULL) ? my_malloc(size) : ptr);
 }

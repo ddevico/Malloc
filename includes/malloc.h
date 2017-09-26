@@ -21,10 +21,12 @@
 #include <stddef.h>
 #include <unistd.h>
 #include <string.h>
+#include "../libft/includes/libft.h"
 
+//La taille de ces zones devra impérativement être un multiple de getpagesize().
 # define TINY 300
 # define SMALL 400
-# define LARGE 1000
+# define LARGE 1000 //???
 
 typedef struct s_page
 {
@@ -42,6 +44,8 @@ typedef struct s_block
 }             t_block;
 
 t_page *g_page_one;
+
+void    *my_calloc(size_t nmemb, size_t size);
 void    *my_malloc(size_t size);
 void my_free(void *ptr);
 void *my_realloc(void *ptr, size_t size);
