@@ -113,7 +113,8 @@ void *place(t_page *page, size_t size, int busy)
 
     prev = page->block;
     //printf("prev %lu = %lu\n\n", (long)prev, (long)page->block);
-    if ((busy = busy_precision(page, busy)) > 0)
+//je pense qu'il faut envoyer size au lieu de busy
+    if ((busy = busy_precision(page, size)) > 0)
     {
         printf("precision\n\n");
         printf("buzyyy placeeeeee %lu\n", busy);
@@ -203,7 +204,7 @@ void    *my_malloc(size_t size)
     //printf("not enter \n");
     return (not_find(size));
 }
-
+/*
 void    *my_calloc(size_t num, size_t nsize)
 {
     size_t	size;
@@ -223,16 +224,16 @@ void    *my_calloc(size_t num, size_t nsize)
   	str = (char *)ret;
     if (!ret)
       return (NULL);
-    ft_memset(ret, 0, size);
-  	/*while (i < size)
+    ft_bzero(ret, size);
+  */	/*while (i < size)
   	{
   		str[i] = car;
   		i++;
   	}*/
     //printf("%lu\n", (unsigned long)ret);
-    return (ret);
+  /*  return (ret);
 }
-
+*/
 int main()
 {
     int i =-1;
@@ -463,8 +464,9 @@ int main()
 
     show_alloc_mem();
     /*impress();
-    printf("\n\n\n\n\n\n\n");*/my_free(s4);my_free(s3);
-
+    printf("\n\n\n\n\n\n\n");*/
+    my_free(s4);my_free(s3);
+printf("salut les copains \n\n\n");
     show_alloc_mem();
     s11 = (char *)my_malloc(sizeof(char) * 205);
     if (s11){
@@ -474,7 +476,7 @@ int main()
         i=-1;
     }
 
-    printf("\n\n\nnew\n\n\n");
+    printf("\n\n\nhelllooooo\n\n\n");
     show_alloc_mem();
 
     /*my_free(s1);
@@ -495,11 +497,10 @@ int main()
     my_free(s5);
     printf("\n\n\nnew\n\n\n");
     show_alloc_mem();*/
-
     printf("\n\n\nnew\n\n\n");
-    s12 = (char *)my_calloc(300, sizeof(char));
+    s12 = (char *)my_calloc(sizeof(char), 10);
     if (s12){
-        while (++i < 5)
+        while (++i < 9)
             s12[i] = '2';
         s12[i] = '\0';
         i=-1;

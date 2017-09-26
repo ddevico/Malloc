@@ -10,10 +10,18 @@ int     busy_precision(t_page *origin, size_t size)
     while (prev)
     {
         index++;
-        //regarder la comparaison des size_t
-        if ((prev->busy > 0 && ((prev->size - prev->busy - sizeof(t_block)) > sizeof(t_block) + size))
-        || (prev->busy == 0 && prev->size - sizeof(t_block) >= size))
+            printf("++++++++++++++++++++++++++++++++++++++ cas 1 size(%lu) busy(%lu) == %lu - %lu > %lu \n\n", prev->size, prev->busy, (prev->size - prev->busy),  sizeof(t_block), sizeof(t_block) + size);
+            //regarder la comparaison des size_t
+        if (prev->busy > 0 && ((prev->size - prev->busy - sizeof(t_block)) > sizeof(t_block) + size))
+        {
+            printf("++++++++++++++++++++++++++++++++++++++ cas 1 == %lu > %lu \n\n", (prev->size - prev->busy - sizeof(t_block)), sizeof(t_block) + size);
             return (index);
+        }
+        if (prev->busy == 0 && prev->size - sizeof(t_block) >= size)
+            {
+                printf("------------------------------------------>cas 2 == %lu >= %lu\n\n", prev->size - sizeof(t_block), size);
+                return (index);
+            }
         prev = prev->next;
     }
 
@@ -34,8 +42,13 @@ int     busy_question(t_page *origin, size_t size)
         index++;
         //regarder la comparaison des size_t
         if (prev->busy > 0 && ((prev->size - prev->busy - sizeof(t_block)) > sizeof(t_block) + size))
-            return (1);
+            {
+                printf("----------------------------____-------->busy_question 1\n\n");
+                return (1);
+            }
         else if (prev->busy == 0 && prev->size - sizeof(t_block) >= size)
+        {
+            printf("----------------------------____-------->busy_question 2\n\n");            
             return (0);
             //busy = taille de l'element sans le block
             //busy peut etre >= a 1, il y a plusieurs blocks de place
@@ -46,6 +59,7 @@ int     busy_question(t_page *origin, size_t size)
             //mais checker si place pour autre block deja
             //--> block->size - block->busy - sizeof(t_block) >= sizeof(t_block) + size
             //dans ce cas creer nouveau block et l'inserer entre
+        }
         else
             pull += (prev->size - sizeof(t_block));
         prev = prev->next;
