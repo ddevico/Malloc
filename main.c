@@ -91,12 +91,8 @@ int main()
     printf("\n\n\nnew\n\n\n");
     free(s6);
     
-    s5 = realloc(s5, 20);
-    show_alloc_mem();
-    s5 = realloc(s5, 50);
-    show_alloc_mem();
-    printf("heyyyy\n");
-    s6 = (char *)realloc(NULL, 60);
+  show_alloc_mem();
+    s11 = (char *)malloc(sizeof(char)*60);
    
     return 0;
 }

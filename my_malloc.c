@@ -27,8 +27,8 @@ static void			*place(t_page *page, size_t size, int busy)
 		ft_printf("buzyyy placeeeeee %lu\n", (long)busy);
         return (busyness(*page, size, busy));
     }
-    i++;
-    printf("i = %d\n", busy);
+    //i++;
+    //printf("i = %d\n", busy);
     
     ecart = 0;
 	while (prev && prev->next)
@@ -83,13 +83,15 @@ void				*malloc(size_t size)
 		first = 1;
 	}
 	origin = g_page_one;
-	while (origin)
+    
+    while (origin)
 	{
 		if (origin->size >= origin->busy && types_of_var(origin->size, size) &&
 		(origin->size - origin->busy >= size + sizeof(t_block)) &&
 		(busy = busy_question(origin, size)) != -1)
 		{
-			origin->busy += ((busy == 0) ? size : (size + sizeof(t_block)));
+//printf("%lu | %lu | %lu size = %lu\n", busy, origin->size, origin->busy, size);
+            origin->busy += ((busy == 0) ? size : (size + sizeof(t_block)));
 			return (place(origin, size, busy));
 		}
 		origin = origin->next;
