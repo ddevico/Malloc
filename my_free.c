@@ -111,7 +111,7 @@ void				free(void *ptr)
 	size_t			plus;
 
 	//if (tour % 10 == 0)
-		try_to_delete_page();
+
 	first = g_page_one;
 	while (first)
 	{
@@ -146,7 +146,7 @@ void				free(void *ptr)
 					first->block->next = NULL;
 				}
 				first->block = one;
-				return ;
+				return (try_to_delete_page());
 			}
 			first->block = first->block->next;
 		}

@@ -18,16 +18,19 @@ static void			*place(t_page *page, size_t size, int busy)
 	t_block			*block;
 	t_block			*prev;
 	int				i;
-
+	i = 0;
+    
 	prev = page->block;
 	if ((busy = busy_precision(page, size)) > 0)
 	{
 		ft_printf("precision\n\n");
 		ft_printf("buzyyy placeeeeee %lu\n", (long)busy);
-		return (busyness(*page, size, busy));
-	}
-	ecart = 0;
-	i = 0;
+        return (busyness(*page, size, busy));
+    }
+    i++;
+    printf("i = %d\n", busy);
+    
+    ecart = 0;
 	while (prev && prev->next)
 		prev = prev->next;
 	block = memory_plus(prev, prev->size);
@@ -35,7 +38,7 @@ static void			*place(t_page *page, size_t size, int busy)
 	block->busy = size;
 	block->next = NULL;
 	prev->next = block;
-	prev = page->block;
+    prev = page->block;
 	return (memory_plus(block, sizeof(t_block)));
 }
 

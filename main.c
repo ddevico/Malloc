@@ -5,7 +5,7 @@ int main()
     int i =-1;
     char *s1, *s2, *s3, *s4, *s5, *s6, *s7, *s8, *s9, *s10,*s11,*s12,*s13,*s14,*s15,*s16,*s17,*s18,*s19,*s20;
 
-    s1 = (char *)my_malloc(sizeof(char) * 21);
+    s1 = (char *)malloc(sizeof(char) * 21);
     if (s1){
         while (++i < 10)
             s1[i] = 'a';
@@ -13,7 +13,7 @@ int main()
         i=-1;
     }
 
-    s2 = (char *)my_malloc(sizeof(char) * 500);
+    s2 = (char *)malloc(sizeof(char) * 500);
     if (s2){
         while (++i < 10)
             s2[i] = 'b';
@@ -21,7 +21,7 @@ int main()
         i=-1;
     }
 
-    s3 = (char *)my_malloc(sizeof(char) * 200);
+    s3 = (char *)malloc(sizeof(char) * 200);
     if (s3){
         while (++i < 10)
             s3[i] = 'c';
@@ -29,7 +29,7 @@ int main()
         i=-1;
     }
 
-    s4 = (char *)my_malloc(sizeof(char) * 11);
+    s4 = (char *)malloc(sizeof(char) * 11);
     if (s4){
         while (++i < 10)
             s4[i] = 'd';
@@ -37,7 +37,7 @@ int main()
         i=-1;
     }
 
-    s5 = (char *)my_malloc(sizeof(char) * 11);
+    s5 = (char *)malloc(sizeof(char) * 11);
     if (s5){
         while (++i < 10)
             s5[i] = 'e';
@@ -45,7 +45,7 @@ int main()
         i=-1;
     }
 
-    s6 = (char *)my_malloc(sizeof(char) * 400);
+    s6 = (char *)malloc(sizeof(char) * 100);
     if (s6){
         while (++i < 10)
             s6[i] = 'f';
@@ -53,7 +53,7 @@ int main()
         i=-1;
     }
 
-    s7 = (char *)my_malloc(sizeof(char) * 400);
+    s7 = (char *)malloc(sizeof(char) * 400);
     if (s7){
         while (++i < 10)
             s7[i] = 'g';
@@ -61,14 +61,14 @@ int main()
         i=-1;
     }
 
-    s8 = (char *)my_malloc(sizeof(char) * 1000);
+    s8 = (char *)malloc(sizeof(char) * 1000);
     if (s8){
         while (++i < 10)
             s8[i] = 'h';
         s8[i] = '\0';
         i=-1;
     }
-    s9 = (char *)my_malloc(sizeof(char) * 300);
+    s9 = (char *)malloc(sizeof(char) * 300);
     if (s9){
         while (++i < 10)
             s9[i] = 'i';
@@ -76,7 +76,7 @@ int main()
         i=-1;
     }
 
-    s10 = (char *)my_malloc(sizeof(char) * 9000);
+    s10 = (char *)malloc(sizeof(char) * 9000);
     if (s10){
         while (++i < 10)
             s10[i] = 'j';
@@ -87,32 +87,16 @@ int main()
    
     
     show_alloc_mem();
-    s11 = (char *)my_malloc(sizeof(char) * 205);
-    if (s11){
-        while (++i < 100)
-            s11[i] = '1';
-        s11[i] = '\0';
-        i=-1;
-    }
- 
+    
     printf("\n\n\nnew\n\n\n");
-    show_alloc_mem();
-    printf("\n\n\nREALLOC\n\n\n");
-    my_free(s5);
-    my_realloc(s4, 210000);
-    my_realloc(s10, 50);
-    show_alloc_mem();
+    free(s6);
     
-    char *str = my_calloc(sizeof(char), 25);
-    if (str){
-        while (++i < 24)
-            str[i] = '2';
-        str[i] = '\0';
-        i=-1;
-    }
-    printf("\n\n\nnew\n\n\n");
-    
+    s5 = realloc(s5, 20);
     show_alloc_mem();
-    
+    s5 = realloc(s5, 50);
+    show_alloc_mem();
+    printf("heyyyy\n");
+    s6 = (char *)realloc(NULL, 60);
+   
     return 0;
 }

@@ -27,7 +27,7 @@ static void	*try_to_realloc(t_page *first, t_block *one, void *ptr, size_t size)
 	if (size == 0 && ptr != NULL)
 	{
 		free(ptr);
-		return ((void *)42);
+		return (malloc(1));
 	}
 	if (one->size - sizeof(t_block) >= size)
 	{
@@ -71,6 +71,8 @@ void		*realloc(void *ptr, size_t size)
 		first->block = one;
 		first = first->next;
 	}
-	first = g_page_one;
+    first = g_page_one;
+    printf("OKOKOKOKOKOKOK\n\n\n");
+    show_alloc_mem();
 	return ((ptr == NULL) ? malloc(size) : ptr);
 }
