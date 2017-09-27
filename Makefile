@@ -20,7 +20,7 @@ SRC = my_malloc.c my_free.c show_alloc_mem.c my_calloc.c utils.c my_realloc.c
 
 OBJ = $(SRC:%.c=obj/%.o)
 
-WFLAGS =
+WFLAGS = -Wall -Wextra -Werror
 
 CC = gcc
 
@@ -33,11 +33,12 @@ LIBFT = $(I_LIBFT) -Llibft -lft
 all : $(NAME)
 
 $(NAME): obj $(OBJ)
-	@echo COMPILING $(@)...
+	@echo "\n\033[31m==> COMPILING in progress ...\033[0m\n"
 	@make -C libft
 	@$(CC) $(WFLAGS) -shared -o $@ $(OBJ) $(HEADERS) $(LIBFT)
-	@ln -s $(NAME) libft_malloc.so
-	@echo SUCCESS !
+	@echo "\033[37mMALLOC: \033[35mOK\n"
+	@ln -s $(NAME) libft_malloc.so.
+	@echo "\033[32m==> SUCCESS !\033[0m\n"
 
 obj/%.o: %.c
 	@$(CC) $(WFLAGS) $(HEADERS) -o $@ -c $< $(I_LIBFT)
@@ -59,4 +60,9 @@ re: fclean all
 test:
 	    sh compil.sh
 
-.PHONY: re fclean clean all test
+norminette:
+	@echo ----------------------- NORMINETTE ---------------------------------."\n"
+	@norminette $(SRC) includes/malloc.h
+	@echo --------------------------------------------------------------------."\n"
+
+.PHONY: re fclean clean all test norminette
