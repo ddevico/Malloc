@@ -20,7 +20,7 @@ static int	realloc_if(t_block *one, size_t size)
 	return (0);
 }
 
-static void	*try_to_realloc(t_page *first, t_block *one, void *ptr, size_t size)
+static void	*try_to_realloc(t_block *one, void *ptr, size_t size)
 {
 	void	*next;
 
@@ -62,7 +62,7 @@ void		*realloc(void *ptr, size_t size)
 		{
 			if (ptr && ptr == memory_plus(first->block, sizeof(t_block)))
 			{
-				ptr = try_to_realloc(first, first->block, ptr, size);
+				ptr = try_to_realloc(first->block, ptr, size);
 				first->block = one;
 				break ;
 			}

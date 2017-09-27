@@ -104,13 +104,10 @@ void				try_to_delete_page(void)
 
 void				free(void *ptr)
 {
-	static size_t	tour = 0;
 	t_page			*first;
 	t_block			*one;
 	t_block			*begin;
 	size_t			plus;
-
-	//if (tour % 10 == 0)
 
 	first = g_page_one;
 	while (first)

@@ -19,7 +19,7 @@ static void			*place(t_page *page, size_t size, int busy)
 	t_block			*prev;
 	int				i;
 	i = 0;
-    
+
 	prev = page->block;
 	if ((busy = busy_precision(page, size)) > 0)
 	{
@@ -27,9 +27,10 @@ static void			*place(t_page *page, size_t size, int busy)
 		ft_printf("buzyyy placeeeeee %lu\n", (long)busy);
         return (busyness(*page, size, busy));
     }
-    //i++;
-    //printf("i = %d\n", busy);
-    
+
+    i++;
+    printf("i = %d\n", busy);
+
     ecart = 0;
 	while (prev && prev->next)
 		prev = prev->next;
