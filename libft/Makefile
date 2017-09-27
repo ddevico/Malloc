@@ -124,7 +124,6 @@ all: default
 re: fclean all
 
 $(OBJDIR)/%.o: %.c
-	@echo Compile $<
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(NAME): $(COBJS)

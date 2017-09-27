@@ -33,28 +33,30 @@ LIBFT = $(I_LIBFT) -Llibft -lft
 all : $(NAME)
 
 $(NAME): obj $(OBJ)
+	@echo COMPILING $(@)...
 	@make -C libft
-	$(CC) $(WFLAGS) -shared -o $@ $(OBJ) $(HEADERS) $(LIBFT)
+	@$(CC) $(WFLAGS) -shared -o $@ $(OBJ) $(HEADERS) $(LIBFT)
 	@ln -s $(NAME) libft_malloc.so
-	@echo created
+	@echo SUCCESS !
 
 obj/%.o: %.c
-	$(CC) $(WFLAGS) $(HEADERS) -o $@ -c $< $(I_LIBFT)
+	@$(CC) $(WFLAGS) $(HEADERS) -o $@ -c $< $(I_LIBFT)
 
 obj:
-		mkdir -p obj/
+		@mkdir -p obj/
 
 clean:
 	@make clean -C libft
-	rm -rf $(OBJ)
+	@rm -rf $(OBJ)
 
 fclean: clean
 	@make fclean -C libft
-	rm -rf $(NAME) libft_malloc*
-
-test:
-	$(CC) $(WFLAGS) test/test.c -o test $(SRC) $(LIBFT)
+	@rm -rf $(NAME) libft_malloc*
+	@find test2/. \! -name "*.*" -type f -exec rm {} \;
 
 re: fclean all
+
+test:
+	    sh compil.sh
 
 .PHONY: re fclean clean all test
