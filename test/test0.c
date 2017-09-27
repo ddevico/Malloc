@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_calloc.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddevico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/26 15:15:20 by ddevico           #+#    #+#             */
-/*   Updated: 2017/09/26 15:56:21 by ddevico          ###   ########.fr       */
+/*   Created: 2017/09/26 18:40:53 by ddevico           #+#    #+#             */
+/*   Updated: 2017/09/26 18:41:08 by ddevico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/malloc.h"
 
-void		*calloc(size_t nmemb, size_t size)
+int main()
 {
-	void	*ptr;
-	size_t	new_size;
+	int i;
+	char *addr;
 
-	if (!nmemb || !size)
-		return (NULL);
-	new_size = nmemb * size;
-	if (size != new_size / nmemb)
-		return (NULL);
-	ptr = malloc(nmemb * size);
-	if (!ptr)
-		return (NULL);
-	if (ptr)
-		ft_bzero(ptr, nmemb * size);
-	return (ptr);
+	i = 0;
+	while (i < 1024)
+	{
+		addr = (char*)malloc(1024);
+		addr[0] = 42;
+		i++;
+	}
+	return (0);
 }

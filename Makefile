@@ -6,7 +6,7 @@
 #    By: tktorza <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/04 14:04:11 by tktorza           #+#    #+#              #
-#    Updated: 2017/09/04 15:27:53 by tktorza          ###   ########.fr        #
+#    Updated: 2017/09/27 10:05:17 by ddevico          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,13 @@ ifeq ($(HOSTTYPE),)
 	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
 endif
 
-NAME = ok
+NAME = libft_malloc_$(HOSTTYPE).so
 
-SRC = main.c 
+SRC = my_malloc.c my_free.c show_alloc_mem.c my_calloc.c utils.c my_realloc.c
 
-OBJ = $(SRC:%.c=%.o)
+OBJ = $(SRC:%.c=obj/%.o)
 
-WFLAGS = -Wall -Wextra -Werror
+WFLAGS =
 
 CC = gcc
 
@@ -32,13 +32,17 @@ LIBFT = $(I_LIBFT) -Llibft -lft
 
 all : $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): obj $(OBJ)
 	@make -C libft
-	$(CC) $(WFLAGS) $(HEADERS) $(OBJ) -o $(NAME) $(LIBFT)
+	$(CC) $(WFLAGS) -shared -o $@ $(OBJ) $(HEADERS) $(LIBFT)
+	@ln -s $(NAME) libft_malloc.so
 	@echo created
 
-%.o: %.c
-	$(CC) $(WFLAGS) $(HEADERS) -c -o $@ $< $(I_LIBFT)
+obj/%.o: %.c
+	$(CC) $(WFLAGS) $(HEADERS) -o $@ -c $< $(I_LIBFT)
+
+obj:
+		mkdir -p obj/
 
 clean:
 	@make clean -C libft
@@ -46,8 +50,11 @@ clean:
 
 fclean: clean
 	@make fclean -C libft
-	rm -rf $(NAME)
+	rm -rf $(NAME) libft_malloc*
+
+test:
+	$(CC) $(WFLAGS) test/test.c -o test $(SRC) $(LIBFT)
 
 re: fclean all
 
-.PHONY: re fclean clean all
+.PHONY: re fclean clean all test
