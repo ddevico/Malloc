@@ -17,7 +17,7 @@ int main()
 	strcpy(addr1, "Bonjours\n");
 	print(addr1);
 	addr3 = (char*)realloc(addr1, 128*M);
-	//addr3[127*M] = 42;
-	//print(addr3);
+	addr3[127*M] = 42;
+	print(addr3);
 	return (0);
 }
