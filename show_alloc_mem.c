@@ -29,6 +29,7 @@ void				show_alloc_mem(void)
 	unsigned long	n;
 
 	page = g_page_one;
+	n = 0;
 	if (page == NULL)
 		printf("No allocation\n");
 	while (page)
