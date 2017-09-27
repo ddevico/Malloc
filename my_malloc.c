@@ -23,13 +23,13 @@ static void			*place(t_page *page, size_t size, int busy)
 	prev = page->block;
 	if ((busy = busy_precision(page, size)) > 0)
 	{
-		ft_printf("precision\n\n");
-		ft_printf("buzyyy placeeeeee %lu\n", (long)busy);
+		//ft_printf("precision\n\n");
+		//ft_printf("buzyyy placeeeeee %lu\n", (long)busy);
         return (busyness(*page, size, busy));
     }
 
-    i++;
-    printf("i = %d\n", busy);
+   // i++;
+   // printf("i = %d\n", busy);
 
     ecart = 0;
 	while (prev && prev->next)
@@ -77,7 +77,7 @@ void				*malloc(size_t size)
 	int				busy;
 	t_page			*origin;
 
-	busy = 0;
+    busy = 0;
 	if (first == 0)
 	{
 		g_page_one = NULL;
