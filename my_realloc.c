@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   my_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddevico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ddevico <ddevico@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 15:56:40 by ddevico           #+#    #+#             */
-/*   Updated: 2017/09/26 16:00:50 by ddevico          ###   ########.fr       */
+/*   Updated: 2017/09/29 11:51:56 by davydevico       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/malloc.h"
+
+void	*ft_memcpy_realloc(void *dst, const void *src, size_t n)
+{
+	size_t		i;
+	char		*a;
+	const char	*b;
+
+	i = 0;
+	a = (char *)dst;
+	b = (const char *)src;
+	while (i < n)
+	{
+		if (b[i])
+			a[i] = b[i];
+		i++;
+	}
+	return (dst);
+}
 
 static int	realloc_if(t_block *one, size_t size)
 {
@@ -23,7 +41,6 @@ static int	realloc_if(t_block *one, size_t size)
 static void	*try_to_realloc(t_block *one, void *ptr, size_t size)
 {
 	void	*next;
-
 	if (size == 0 && ptr != NULL)
 	{
 		free(ptr);
@@ -43,7 +60,7 @@ static void	*try_to_realloc(t_block *one, void *ptr, size_t size)
 	else
 	{
 		next = malloc(size);
-		ft_memcpy(next, ptr, ((size < one->busy) ? size : one->busy));
+		ft_memcpy_realloc(next, ptr, ((size < one->busy) ? size : one->busy));
 		free(ptr);
 		return (next);
 	}
@@ -63,16 +80,14 @@ void		*realloc(void *ptr, size_t size)
 			if (ptr && ptr == memory_plus(first->block, sizeof(t_block)))
 			{
 				ptr = try_to_realloc(first->block, ptr, size);
-				first->block = one;
-				break ;
+				//first->block = one;
+				return ((ptr == NULL) ? malloc(size) : ptr);
 			}
 			first->block = first->block->next;
 		}
 		first->block = one;
 		first = first->next;
 	}
-    first = g_page_one;
-    printf("OKOKOKOKOKOKOK\n\n\n");
-    show_alloc_mem();
+  first = g_page_one;
 	return ((ptr == NULL) ? malloc(size) : ptr);
 }

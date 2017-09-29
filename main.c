@@ -83,16 +83,16 @@ int main()
         s10[i] = '\0';
         i=-1;
     }
-    
-   
-    
+
     show_alloc_mem();
-    
-    printf("\n\n\nnew\n\n\n");
+    printf("\n\n===========================================\n\n");
+    show_alloc_mem2();
+
+    /*printf("\n\n\nnew\n\n\n");
     free(s6);
-    
-  show_alloc_mem();
-    s11 = (char *)malloc(sizeof(char)*60);
-   
+
+    show_alloc_mem();
+    s11 = (char *)malloc(sizeof(char)*60);*/
+
     return 0;
 }

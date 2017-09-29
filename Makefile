@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tktorza <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: tktorza <tktorza@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/04 14:04:11 by tktorza           #+#    #+#              #
-#    Updated: 2017/09/27 10:05:17 by ddevico          ###   ########.fr        #
+#    Updated: 2017/09/29 09:45:50 by davydevico       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC = my_malloc.c my_free.c show_alloc_mem.c my_calloc.c utils.c my_realloc.c
 
 OBJ = $(SRC:%.c=obj/%.o)
 
-WFLAGS = -Wall -Wextra -Werror
+WFLAGS =
 
 CC = gcc
 
@@ -37,8 +37,8 @@ $(NAME): obj $(OBJ)
 	@make -C libft
 	@$(CC) $(WFLAGS) -shared -o $@ $(OBJ) $(HEADERS) $(LIBFT)
 	@echo "\033[37mMALLOC: \033[35mOK\n"
-	@ln -s $(NAME) libft_malloc.so.
-	@echo "\033[32m==> SUCCESS !\033[0m\n"
+	@ln -s $(NAME) libft_malloc.so
+	@echo "\033[32m==> SUCCESS !\0m33[0m\n"
 
 obj/%.o: %.c
 	@$(CC) $(WFLAGS) $(HEADERS) -o $@ -c $< $(I_LIBFT)
