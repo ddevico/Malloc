@@ -92,7 +92,9 @@ int main()
     free(s6);
     
   show_alloc_mem();
-    s11 = (char *)malloc(sizeof(char)*60);
-   
+    s11 = (char *)malloc(sizeof(char)*19);
+    printf("\nNINE\n");
+    show_alloc_mem();
+  
     return 0;
 }
