@@ -6,7 +6,7 @@
 #    By: tktorza <tktorza@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/04 14:04:11 by tktorza           #+#    #+#              #
-#    Updated: 2017/09/29 09:45:50 by davydevico       ###   ########.fr        #
+#    Updated: 2017/09/30 23:28:47 by davydevico       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,15 +30,24 @@ I_LIBFT = -I libft/includes/
 
 LIBFT = $(I_LIBFT) -Llibft -lft
 
-all : $(NAME)
+all : $(NAME) target
 
 $(NAME): obj $(OBJ)
+	@echo "\n";
+	@echo "			$(CG)        :::   :::       :::     :::        :::        ::::::::   :::::::: $(CE)";
+	@echo "			$(CG)      :+:+: :+:+:    :+: :+:   :+:        :+:       :+:    :+: :+:    :+: $(CE)";
+	@echo "			$(CG)    +:+ +:+:+ +:+  +:+   +:+  +:+        +:+       +:+    +:+ +:+         $(CE)";
+	@echo "			$(CG)   +#+  +:+  +#+ +#++:++#++: +#+        +#+       +#+    +:+ +#+          $(CE)";
+	@echo "			$(CG)  +#+       +#+ +#+     +#+ +#+        +#+       +#+    +#+ +#+           $(CE)";
+	@echo "			$(CG) #+#       #+# #+#     #+# #+#        #+#       #+#    #+# #+#    #+#     $(CE)";
+	@echo "			$(CG)###       ### ###     ### ########## ########## ########   ########       $(CE)";
+	@echo "\n";
 	@echo "\n\033[31m==> COMPILING in progress ...\033[0m\n"
 	@make -C libft
 	@$(CC) $(WFLAGS) -shared -o $@ $(OBJ) $(HEADERS) $(LIBFT)
 	@echo "\033[37mMALLOC: \033[35mOK\n"
-	@ln -s $(NAME) libft_malloc.so
-	@echo "\033[32m==> SUCCESS !\0m33[0m\n"
+	@ln -s $(NAME) libft_malloc.so.
+	@echo "\033[32m==> SUCCESS !\033[0m\n"
 
 obj/%.o: %.c
 	@$(CC) $(WFLAGS) $(HEADERS) -o $@ -c $< $(I_LIBFT)
@@ -47,6 +56,7 @@ obj:
 		@mkdir -p obj/
 
 clean:
+	@echo "\n\033[35m==> CLEANING in progress ...\033[0m\n"
 	@make clean -C libft
 	@rm -rf $(OBJ)
 
