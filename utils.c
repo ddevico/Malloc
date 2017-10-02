@@ -6,7 +6,7 @@
 /*   By: ddevico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 15:15:20 by ddevico           #+#    #+#             */
-/*   Updated: 2017/09/26 15:41:49 by ddevico          ###   ########.fr       */
+/*   Updated: 2017/10/02 13:44:29 by ddevico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ void		*memory_plus(void *addr, size_t inc)
 	size_t d;
 
 	d = 0;
-//	printf("i %lu < inc %lu\n\n", d, inc);
-	
 	while (d < inc)
 	{
 		addr++;
@@ -95,29 +93,20 @@ void		*busyness(t_page page, size_t size, int busy)
 	while (busy-- != 1)
 	{
 		page.block = page.block->next;
-		//printf("busy = %d\n\n", busy);
 	}
-	printf("page->block = 0x%lX \n\n", (unsigned long)page.block);
 	if (page.block->busy == 0 && page.block->size - sizeof(t_block) >= size)
 	{
-		printf("cas 1\n\n");
 		page.block->busy += size;
-		
 		return (memory_plus(page.block, sizeof(t_block)));
 	}
 	else
 	{
-		printf("cas 2\n\n");
-		printf("page block = %lu\n\n", (long)page.block);
-		
 		block = memory_plus(page.block, sizeof(t_block) + page.block->busy);
-		printf("page block = %lu\n\n", (long)block);
 		block->size = page.block->size - page.block->busy - sizeof(t_block);
 		block->busy = size;
 		page.block->size -= block->size;
 		block->next = page.block->next;
 		page.block->next = block;
-		printf("the end \n\n");
 		return (memory_plus(block, sizeof(t_block)));
 	}
 }
