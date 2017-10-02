@@ -39,10 +39,10 @@ static void			print_mem_2(t_page *page)
 	ft_putstr(" : ");
 	ft_putnbr(page->block->size);
 	ft_putstr(" octets");
-	ft_putstr(", ");
-	ft_putstr(memory_plus(page->block, sizeof(t_block)));
-	ft_putstr(" | var busy memory = ");
-	ft_putnbr(page->block->busy);
+	//ft_putstr(", ");
+	//ft_putstr(memory_plus(page->block, sizeof(t_block)));
+	//ft_putstr(" | var busy memory = ");
+	//ft_putnbr(page->block->busy);
 	ft_putendl("");
 	page->block = page->block->next;
 }

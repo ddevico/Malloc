@@ -6,7 +6,7 @@
 /*   By: tktorza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/27 17:26:40 by tktorza           #+#    #+#             */
-/*   Updated: 2016/03/14 15:50:47 by tktorza          ###   ########.fr       */
+/*   Updated: 2017/10/02 13:52:13 by ddevico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ int					ft_compt(int nbr);
 size_t				ft_word_number(char const *s, char c);
 void				ft_itoto(char *str, int n);
 size_t				ft_place(char const *s, char c);
+int					ft_printf(const char *s, ...);
 
 #endif
