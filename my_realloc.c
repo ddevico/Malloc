@@ -79,8 +79,9 @@ void		*realloc(void *ptr, size_t size)
 		{
 			if (ptr && ptr == memory_plus(first->block, sizeof(t_block)))
 			{
+                //regarder pour first->block est le premier maillon
 				ptr = try_to_realloc(first->block, ptr, size);
-				//first->block = one;
+				first->block = one;
 				return ((ptr == NULL) ? malloc(size) : ptr);
 			}
 			first->block = first->block->next;
@@ -89,5 +90,5 @@ void		*realloc(void *ptr, size_t size)
 		first = first->next;
 	}
   first = g_page_one;
-	return ((ptr == NULL) ? malloc(size) : ptr);
+	return ((ptr == NULL) ? malloc(size) : NULL);
 }
