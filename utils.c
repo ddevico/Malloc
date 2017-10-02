@@ -79,21 +79,12 @@ size_t		type_of_size(size_t size)
 {
 	size_t	val;
 
-	if (size <= TINY)
-	{
+	if (size + sizeof(t_block) <= TINY)
 		return (TINY * 100);
-		//val = (TINY * 100)+ sizeof(t_page);
-	}
-	else if (size <= SMALL)
-	{
+	else if (size + sizeof(t_block) <= SMALL)
 		return (SMALL * 100);
-		//val = (SMALL * 100)+ sizeof(t_page);
-	}
 	else
-	{
-		//val = size * 100 + sizeof(t_page);
 		val = LARGE * 100 + sizeof(t_page);
-	}
 	return (val);
 }
 
@@ -104,13 +95,14 @@ void		*busyness(t_page page, size_t size, int busy)
 	while (busy-- != 1)
 	{
 		page.block = page.block->next;
-		printf("busy = %d\n\n", busy);
+		//printf("busy = %d\n\n", busy);
 	}
 	printf("page->block = 0x%lX \n\n", (unsigned long)page.block);
 	if (page.block->busy == 0 && page.block->size - sizeof(t_block) >= size)
 	{
 		printf("cas 1\n\n");
 		page.block->busy += size;
+		
 		return (memory_plus(page.block, sizeof(t_block)));
 	}
 	else
