@@ -20,7 +20,7 @@ SRC = my_malloc.c my_free.c show_alloc_mem.c my_calloc.c utils.c my_realloc.c
 
 OBJ = $(SRC:%.c=obj/%.o)
 
-WFLAGS =
+WFLAGS = -Werror -Wextra -Wall
 
 CC = gcc
 

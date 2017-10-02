@@ -17,7 +17,6 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <stdio.h>
-# include <stdlib.h>
 # include <stddef.h>
 # include <unistd.h>
 # include <string.h>
@@ -25,7 +24,6 @@
 
 # define TINY (size_t)getpagesize() * 2
 # define SMALL (size_t)getpagesize() * 16
-# define LARGE 1215752192
 
 typedef struct		s_page
 {

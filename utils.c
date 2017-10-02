@@ -55,7 +55,7 @@ void		impress(void)
 int			types_of_var(size_t page, size_t size)
 {
 	size = type_of_size(size);
-	if (page == size && size != ((LARGE * 100) + sizeof(t_page)))
+	if (page == size && size != ((size / (size_t)getpagesize()) + 10) * getpagesize())
 		return (1);
 	return (0);
 }
@@ -76,15 +76,12 @@ void		*memory_plus(void *addr, size_t inc)
 
 size_t		type_of_size(size_t size)
 {
-	size_t	val;
-
 	if (size + sizeof(t_block) <= TINY)
 		return (TINY * 100);
 	else if (size + sizeof(t_block) <= SMALL)
 		return (SMALL * 100);
 	else
-		val = LARGE * 100 + sizeof(t_page);
-	return (val);
+		return ((size / (size_t)getpagesize()) + 10) * getpagesize();
 }
 
 void		*busyness(t_page page, size_t size, int busy)
