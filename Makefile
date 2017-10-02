@@ -6,7 +6,7 @@
 #    By: tktorza <tktorza@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/04 14:04:11 by tktorza           #+#    #+#              #
-#    Updated: 2017/09/30 23:28:47 by davydevico       ###   ########.fr        #
+#    Updated: 2017/10/01 16:07:36 by davydevico       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ I_LIBFT = -I libft/includes/
 
 LIBFT = $(I_LIBFT) -Llibft -lft
 
-all : $(NAME) target
+all : $(NAME) test
 
 $(NAME): obj $(OBJ)
 	@echo "\n";
@@ -46,7 +46,7 @@ $(NAME): obj $(OBJ)
 	@make -C libft
 	@$(CC) $(WFLAGS) -shared -o $@ $(OBJ) $(HEADERS) $(LIBFT)
 	@echo "\033[37mMALLOC: \033[35mOK\n"
-	@ln -s $(NAME) libft_malloc.so.
+	@ln -s $(NAME) libft_malloc.so
 	@echo "\033[32m==> SUCCESS !\033[0m\n"
 
 obj/%.o: %.c
@@ -63,12 +63,14 @@ clean:
 fclean: clean
 	@make fclean -C libft
 	@rm -rf $(NAME) libft_malloc*
+	@echo "\033[35m==> CLEANING test files ...\033[0m\n"
 	@find test2/. \! -name "*.*" -type f -exec rm {} \;
 
 re: fclean all
 
 test:
-	    sh compil.sh
+	@echo "\n\033[31m==> COMPILING test files ...\033[0m\n"
+	sh compil.sh
 
 norminette:
 	@echo ----------------------- NORMINETTE ---------------------------------."\n"
