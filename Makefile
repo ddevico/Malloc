@@ -64,7 +64,7 @@ fclean: clean
 	@make fclean -C libft
 	@rm -rf $(NAME) libft_malloc*
 	@echo "\033[35m==> CLEANING test files ...\033[0m\n"
-	@find test2/. \! -name "*.*" -type f -exec rm {} \;
+	@find test/. \! -name "*.*" -type f -exec rm {} \;
 
 re: fclean all
 

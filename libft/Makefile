@@ -127,7 +127,7 @@ $(OBJDIR)/%.o: %.c
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(NAME): $(COBJS)
-	@echo Linking $(NAME)
+	@echo "LIBFT: \033[35mOK"
 	@$(LC) $(LARGS) $(NAME) $(COBJS)
 
 clean:

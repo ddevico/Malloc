@@ -1,6 +1,4 @@
-#include "includes/malloc.h"
-
-
+#include "../includes/malloc.h"
 
 int main()
 {
