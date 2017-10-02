@@ -74,9 +74,9 @@ void				show_alloc_mem(void)
 	while (page)
 	{
 		block = page->block;
-		if (page->size <= (TINY * 100))
+		if (page->size <= (TINY * 100) && page->block && page->block->size <= TINY)
 			n = n + print_mem("TINY: ", page);
-		else if (page->size <= (SMALL * 100))
+		else if (page->size <= (SMALL * 100) && page->block && page->block->size <= SMALL)
 			n = n + print_mem("SMALL: ", page);
 		else
 			n = n + print_mem("LARGE: ", page);
