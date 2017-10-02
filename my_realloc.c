@@ -6,20 +6,20 @@
 /*   By: ddevico <ddevico@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 15:56:40 by ddevico           #+#    #+#             */
-/*   Updated: 2017/09/29 11:51:56 by davydevico       ###   ########.fr       */
+/*   Updated: 2017/10/02 13:40:21 by ddevico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/malloc.h"
 
-void	*ft_memcpy_realloc(void *dst, const void *src, size_t n)
+void			*ft_memcpy_realloc(void *dst, const void *src, size_t n)
 {
 	size_t		i;
 	char		*a;
 	const char	*b;
 
 	if (src == NULL || dst == NULL)
-		return NULL;
+		return (NULL);
 	i = 0;
 	a = (char *)dst;
 	b = (const char *)src;
@@ -32,7 +32,7 @@ void	*ft_memcpy_realloc(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-static int	realloc_if(t_block *one, size_t size)
+static int		realloc_if(t_block *one, size_t size)
 {
 	one->size += (one->next)->size;
 	one->busy = size;
@@ -40,9 +40,9 @@ static int	realloc_if(t_block *one, size_t size)
 	return (0);
 }
 
-static void	*try_to_realloc(t_block *one, void *ptr, size_t size)
+static void		*try_to_realloc(t_block *one, void *ptr, size_t size)
 {
-	void	*next;
+	void		*next;
 
 	if (one->size - sizeof(t_block) >= size)
 	{
@@ -64,12 +64,12 @@ static void	*try_to_realloc(t_block *one, void *ptr, size_t size)
 	}
 }
 
-void	*to_realloc(size_t size, void *ptr, t_page *first, t_block *one, int y)
+void			*to_realloc(size_t size, void *ptr, t_page *first, t_block *one, int y)
 {
 	if (size == 0)
 	{
 		free(ptr);
-		return NULL;
+		return (NULL);
 	}
 	ptr = try_to_realloc(first->block, ptr, size);
 	if (y != 0)
@@ -77,11 +77,11 @@ void	*to_realloc(size_t size, void *ptr, t_page *first, t_block *one, int y)
 	return ((ptr == NULL) ? malloc(size) : ptr);
 }
 
-void		*realloc(void *ptr, size_t size)
+void			*realloc(void *ptr, size_t size)
 {
-	t_page	*first;
-	t_block	*one;
-	int y;
+	t_page		*first;
+	t_block		*one;
+	int			y;
 
 	first = g_page_one;
 	while (first)
@@ -98,6 +98,6 @@ void		*realloc(void *ptr, size_t size)
 		first->block = one;
 		first = first->next;
 	}
- 	first = g_page_one;
+	first = g_page_one;
 	return ((ptr == NULL) ? malloc(size) : NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: ddevico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 15:15:20 by ddevico           #+#    #+#             */
-/*   Updated: 2017/09/26 17:11:13 by ddevico          ###   ########.fr       */
+/*   Updated: 2017/10/02 13:43:05 by ddevico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@ static void			*place(t_page *page, size_t size, int busy)
 	t_block			*block;
 	t_block			*prev;
 	int				i;
-	i = 0;
 
+	i = 0;
 	prev = page->block;
 	if ((busy = busy_precision(page, size)) > 0)
         return (busyness(*page, size, busy));
-
     ecart = 0;
 	while (prev && prev->next)
 		prev = prev->next;
@@ -32,7 +31,7 @@ static void			*place(t_page *page, size_t size, int busy)
 	block->busy = size;
 	block->next = NULL;
 	prev->next = block;
-    prev = page->block;
+	prev = page->block;
 	return (memory_plus(block, sizeof(t_block)));
 }
 
@@ -70,15 +69,14 @@ void				*malloc(size_t size)
 	int				busy;
 	t_page			*origin;
 
-    busy = 0;
+	busy = 0;
 	if (first == 0)
 	{
 		g_page_one = NULL;
 		first = 1;
 	}
 	origin = g_page_one;
-    
-    while (origin)
+	while (origin)
 	{
 		if (origin->size >= origin->busy && types_of_var(origin->size, size) &&
 		(origin->size - origin->busy >= size + sizeof(t_block)) &&
