@@ -12,7 +12,7 @@
 
 #include "includes/malloc.h"
 
-void			*ft_memcpy_realloc(void *dst, const void *src, size_t n)
+void		*ft_memcpy_realloc(void *dst, const void *src, size_t n)
 {
 	size_t		i;
 	char		*a;
@@ -32,7 +32,7 @@ void			*ft_memcpy_realloc(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-static int		realloc_if(t_block *one, size_t size)
+static int	realloc_if(t_block *one, size_t size)
 {
 	one->size += (one->next)->size;
 	one->busy = size;
@@ -40,7 +40,7 @@ static int		realloc_if(t_block *one, size_t size)
 	return (0);
 }
 
-static void		*try_to_realloc(t_block *one, void *ptr, size_t size)
+static void	*try_to_realloc(t_block *one, void *ptr, size_t size)
 {
 	void		*next;
 
@@ -64,36 +64,37 @@ static void		*try_to_realloc(t_block *one, void *ptr, size_t size)
 	}
 }
 
-void			*to_realloc(size_t size, void *ptr, t_page *first, t_block *one, int y)
+void		*to_realloc(t_value *val, void *ptr, t_page *first, t_block *one)
 {
-	if (size == 0)
+	if (val->size == 0)
 	{
 		free(ptr);
 		return (NULL);
 	}
-	ptr = try_to_realloc(first->block, ptr, size);
-	if (y != 0)
+	ptr = try_to_realloc(first->block, ptr, val->size);
+	if (val->y != 0)
 		first->block = one;
-	return ((ptr == NULL) ? malloc(size) : ptr);
+	return ((ptr == NULL) ? malloc(val->size) : ptr);
 }
 
-void			*realloc(void *ptr, size_t size)
+void		*realloc(void *ptr, size_t size)
 {
 	t_page		*first;
 	t_block		*one;
-	int			y;
+	t_value		val;
 
+	val.size = size;
 	first = g_page_one;
 	while (first)
 	{
 		one = first->block;
-		y = 0;
+		val.y = 0;
 		while (first->block != NULL)
 		{
 			if (ptr && ptr == memory_plus(first->block, sizeof(t_block)))
-				return (to_realloc(size, ptr, first, one, y));
+				return (to_realloc(val, ptr, first, one));
 			first->block = first->block->next;
-			y++;
+			val.y++;
 		}
 		first->block = one;
 		first = first->next;

@@ -60,11 +60,7 @@ void		try_to_delete_page(void)
 	{
 		busy = 0;
 		begin = g_page_one->block;
-		while (g_page_one->block)
-		{
-			busy += g_page_one->block->busy;
-			g_page_one->block = g_page_one->block->next;
-		}
+		busy = busy_increment(busy);
 		if (busy == 0 && (void *)g_page_one == (void *)first)
 		{
 			first = g_page_one->next;

@@ -40,6 +40,12 @@ typedef struct		s_block
 	struct s_block	*next;
 }					t_block;
 
+typedef struct		s_value
+{
+	size_t			size;
+	int				y;
+}					t_value;
+
 t_page				*g_page_one;
 
 void				*calloc(size_t nmemb, size_t size);
@@ -59,5 +65,6 @@ size_t				type_of_size(size_t size);
 int					types_of_var(size_t page, size_t size);
 void				*memory_plus(void *addr, size_t inc);
 void				*busyness(t_page page, size_t size, int busy);
+int					busy_increment(int busy);
 
 #endif

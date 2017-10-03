@@ -29,3 +29,14 @@ void		*calloc(size_t nmemb, size_t size)
 		ft_bzero(ptr, nmemb * size);
 	return (ptr);
 }
+
+int			busy_increment(int busy)
+{
+	while (g_page_one->block)
+	{
+		busy += g_page_one->block->busy;
+		g_page_one->block = g_page_one->block->next;
+	}
+
+	return (busy);
+}
