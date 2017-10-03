@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_malloc.c                                        :+:      :+:    :+:   */
+/*   my_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddevico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tktorza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/26 15:15:20 by ddevico           #+#    #+#             */
-/*   Updated: 2017/10/03 10:15:15 by ddevico          ###   ########.fr       */
+/*   Created: 2017/10/03 12:04:50 by tktorza           #+#    #+#             */
+/*   Updated: 2017/10/03 12:04:51 by tktorza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void		free2(t_page *first, t_block *one, t_block *begin, size_t plus)
 	first->block = one;
 }
 
-void		free(void *ptr)
+void		exec_free(void *ptr)
 {
 	t_page	*first;
 	t_block	*one;

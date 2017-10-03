@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   my_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddevico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tktorza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/26 15:15:20 by ddevico           #+#    #+#             */
-/*   Updated: 2017/10/03 10:02:26 by ddevico          ###   ########.fr       */
+/*   Created: 2017/10/03 12:05:00 by tktorza           #+#    #+#             */
+/*   Updated: 2017/10/03 12:05:01 by tktorza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/malloc.h"
+
+pthread_mutex_t g_mutex;
 
 static void			*place(t_page *page, size_t size, int busy)
 {
@@ -63,18 +65,12 @@ static void			*not_find(size_t size)
 	return (memory_plus(block, sizeof(t_block)));
 }
 
-void				*malloc(size_t size)
+void				*exec_malloc(size_t size)
 {
-	static int		first = 0;
 	int				busy;
 	t_page			*origin;
 
 	busy = 0;
-	if (first == 0)
-	{
-		g_page_one = NULL;
-		first = 1;
-	}
 	origin = g_page_one;
 	while (origin)
 	{
@@ -88,4 +84,16 @@ void				*malloc(size_t size)
 		origin = origin->next;
 	}
 	return (not_find(size));
+}
+
+void	malloc_init(void)
+{
+	static int		first = 0;
+
+	if (first == 0)
+	{
+		pthread_mutex_init(&g_mutex, NULL);
+		g_page_one = NULL;
+		first = 1;
+	}
 }

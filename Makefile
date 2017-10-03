@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tktorza <tktorza@student.42.fr>            +#+  +:+       +#+         #
+#    By: tktorza <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/09/04 14:04:11 by tktorza           #+#    #+#              #
-#    Updated: 2017/10/01 16:07:36 by davydevico       ###   ########.fr        #
+#    Created: 2017/10/03 12:02:00 by tktorza           #+#    #+#              #
+#    Updated: 2017/10/03 12:04:10 by tktorza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,11 @@ endif
 
 NAME = libft_malloc_$(HOSTTYPE).so
 
-SRC = my_malloc.c my_free.c show_alloc_mem.c my_calloc.c utils.c my_realloc.c
+SRC = my_malloc.c my_free.c show_alloc_mem.c my_calloc.c utils.c my_realloc.c thread_calling.c
 
 OBJ = $(SRC:%.c=obj/%.o)
 
-WFLAGS = -W -Wall -Werror -Wextra
+WFLAGS = -W -Wall -Werror -Wextra -fPIC
 
 CC = gcc
 
@@ -44,7 +44,7 @@ $(NAME): obj $(OBJ)
 	@echo "\n";
 	@echo "\n\033[31m==> COMPILING in progress ...\033[0m\n"
 	@make -C libft
-	@$(CC) $(WFLAGS) -shared -o $@ $(OBJ) $(HEADERS) $(LIBFT)
+	@$(CC) $(WFLAGS) -shared  -o $@ $(OBJ) $(HEADERS) $(LIBFT)
 	@echo "\033[37mMALLOC: \033[35mOK\n"
 	@ln -s $(NAME) libft_malloc.so
 	@echo "\033[32m==> SUCCESS !\033[0m\n"

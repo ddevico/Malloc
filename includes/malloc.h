@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tktorza <tktorza@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tktorza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/04 14:46:04 by tktorza           #+#    #+#             */
-/*   Updated: 2017/10/02 12:17:19 by davydevico       ###   ########.fr       */
+/*   Created: 2017/10/03 12:02:15 by tktorza           #+#    #+#             */
+/*   Updated: 2017/10/03 12:04:21 by tktorza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stddef.h>
 # include <unistd.h>
 # include <string.h>
+# include <pthread.h>
 # include "../libft/includes/libft.h"
 
 # define TINY (size_t)getpagesize() * 2
@@ -47,19 +48,27 @@ typedef struct		s_value
 }					t_value;
 
 t_page				*g_page_one;
+extern pthread_mutex_t g_mutex;
+
+void	malloc_init(void);
+
 
 void				*calloc(size_t nmemb, size_t size);
+void				*exec_calloc(size_t nmemb, size_t size);
 
 void				*malloc(size_t size);
+void				*exec_malloc(size_t size);
 
 void				*realloc(void *ptr, size_t size);
+void				*exec_realloc(void *ptr, size_t size);
+
+void				free(void *ptr);
+void				exec_free(void *ptr);
 
 int					busy_question(t_page *origin, size_t size);
 int					busy_precision(t_page *origin, size_t size);
-void				free(void *ptr);
 void				show_alloc_mem(void);
 void				show_alloc_mem2(void);
-
 void				impress(void);
 size_t				type_of_size(size_t size);
 int					types_of_var(size_t page, size_t size);

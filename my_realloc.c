@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddevico <ddevico@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tktorza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/26 15:56:40 by ddevico           #+#    #+#             */
-/*   Updated: 2017/10/02 13:40:21 by ddevico          ###   ########.fr       */
+/*   Created: 2017/10/03 12:05:14 by tktorza           #+#    #+#             */
+/*   Updated: 2017/10/03 12:05:15 by tktorza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,27 +57,27 @@ static void	*try_to_realloc(t_block *one, void *ptr, size_t size)
 	}
 	else
 	{
-		next = malloc(size);
+		next = exec_malloc(size);
 		ft_memcpy_realloc(next, ptr, ((size < one->busy) ? size : one->busy));
-		free(ptr);
+		exec_free(ptr);
 		return (next);
 	}
 }
 
-void		*to_realloc(t_value *val, void *ptr, t_page *first, t_block *one)
+void		*to_realloc(t_value val, void *ptr, t_page *first, t_block *one)
 {
-	if (val->size == 0)
+	if (val.size == 0)
 	{
-		free(ptr);
-		return (NULL);
+		exec_free(ptr);
+		return (exec_malloc(1));
 	}
-	ptr = try_to_realloc(first->block, ptr, val->size);
-	if (val->y != 0)
+	ptr = try_to_realloc(first->block, ptr, val.size);
+	if (val.y != 0)
 		first->block = one;
-	return ((ptr == NULL) ? malloc(val->size) : ptr);
+	return ((ptr == NULL) ? exec_malloc(val.size) : ptr);
 }
 
-void		*realloc(void *ptr, size_t size)
+void		*exec_realloc(void *ptr, size_t size)
 {
 	t_page		*first;
 	t_block		*one;
@@ -100,5 +100,5 @@ void		*realloc(void *ptr, size_t size)
 		first = first->next;
 	}
 	first = g_page_one;
-	return ((ptr == NULL) ? malloc(size) : NULL);
+	return ((ptr == NULL) ? exec_malloc(size) : NULL);
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   my_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddevico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tktorza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/26 15:15:20 by ddevico           #+#    #+#             */
-/*   Updated: 2017/09/26 15:56:21 by ddevico          ###   ########.fr       */
+/*   Created: 2017/10/03 12:04:39 by tktorza           #+#    #+#             */
+/*   Updated: 2017/10/03 12:04:40 by tktorza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/malloc.h"
 
-void		*calloc(size_t nmemb, size_t size)
+void		*exec_calloc(size_t nmemb, size_t size)
 {
 	void	*ptr;
 	size_t	new_size;
@@ -27,6 +27,16 @@ void		*calloc(size_t nmemb, size_t size)
 		return (NULL);
 	if (ptr)
 		ft_bzero(ptr, nmemb * size);
+	return (ptr);
+}
+
+void		*calloc(size_t nmemb, size_t size)
+{
+	void	*ptr;
+	malloc_init();
+	pthread_mutex_lock(&g_mutex);
+	ptr = exec_calloc(nmemb, size);
+	pthread_mutex_unlock(&g_mutex);
 	return (ptr);
 }
 
