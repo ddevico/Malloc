@@ -6,7 +6,7 @@
 /*   By: ddevico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 15:15:20 by ddevico           #+#    #+#             */
-/*   Updated: 2017/10/02 13:44:29 by ddevico          ###   ########.fr       */
+/*   Updated: 2017/10/03 10:16:21 by ddevico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int			types_of_var(size_t page, size_t size)
 {
 	size = type_of_size(size);
-	if (page == size && size != ((size / (size_t)getpagesize()) + 10) * getpagesize())
+	if (page == size && size != ((size / (size_t)getpagesize()) + 10) *
+			getpagesize())
 		return (1);
 	return (0);
 }
@@ -25,7 +26,6 @@ void		*memory_plus(void *addr, size_t inc)
 	size_t d;
 
 	d = 0;
-	
 	while (d < inc)
 	{
 		addr++;
@@ -65,4 +65,24 @@ void		*busyness(t_page page, size_t size, int busy)
 		page.block->next = block;
 		return (memory_plus(block, sizeof(t_block)));
 	}
+}
+
+int			busy_precision(t_page *origin, size_t size)
+{
+	t_block	*prev;
+	int		index;
+
+	index = 0;
+	prev = origin->block;
+	while (prev)
+	{
+		index++;
+		if (prev->busy > 0 && ((prev->size - prev->busy - sizeof(t_block)) >
+			sizeof(t_block) + size))
+			return (index);
+		if (prev->busy == 0 && prev->size - sizeof(t_block) >= size)
+			return (index);
+		prev = prev->next;
+	}
+	return (0);
 }

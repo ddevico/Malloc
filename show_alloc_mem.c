@@ -6,7 +6,7 @@
 /*   By: ddevico <ddevico@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/26 15:56:40 by ddevico           #+#    #+#             */
-/*   Updated: 2017/09/29 11:57:07 by davydevico       ###   ########.fr       */
+/*   Updated: 2017/10/03 10:00:52 by ddevico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,6 @@ static void			print_mem_2(t_page *page)
 	ft_putstr(" : ");
 	ft_putnbr(page->block->size);
 	ft_putstr(" octets");
-	//ft_putstr(", ");
-	//ft_putstr(memory_plus(page->block, sizeof(t_block)));
-	//ft_putstr(" | var busy memory = ");
-	//ft_putnbr(page->block->busy);
 	ft_putendl("");
 	page->block = page->block->next;
 }
@@ -74,9 +70,11 @@ void				show_alloc_mem(void)
 	while (page)
 	{
 		block = page->block;
-		if (page->size <= (TINY * 100) && page->block && page->block->size <= TINY)
+		if (page->size <= (TINY * 100) && page->block && page->block->size <=
+				TINY)
 			n = n + print_mem("TINY: ", page);
-		else if (page->size <= (SMALL * 100) && page->block && page->block->size <= SMALL)
+		else if (page->size <= (SMALL * 100) && page->block && page->block->size
+				<= SMALL)
 			n = n + print_mem("SMALL: ", page);
 		else
 			n = n + print_mem("LARGE: ", page);
