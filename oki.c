@@ -1,12 +1,61 @@
-void dump(int type)
-{
-    block = t_block + var
-    (void *)block
-    int i = page->block->size - page->block->busy;
-    
-    while (i < page->block->size - t_block)
-    {
-        print(memory_plus(page->block, i), hexa);
-    }
+#include "includes/malloc.h"
 
+static void      print_dump(t_page *page, unsigned int i)
+{
+  while (page->block != NULL)
+  {
+    while (i < page->block->size - sizeof(t_block))
+    {
+        put_pointer(memory_plus(page->block, i));
+        ft_putstr(": ");
+        put_hexa_dump((unsigned long)memory_plus(page->block, i));
+        ft_putstr(" ");
+        ft_putchar((char)memory_plus(page->block, i));
+        ft_putstr("\n");
+        i++;
+    }
+    page->block = page->block->next;
+  }
+}
+
+static void       test_type(t_page *page, int type, unsigned int i)
+{
+  if (type == 0)
+  {
+    if (page->size <= (TINY * 100) && page->block && page->block->size <=
+        TINY)
+      print_dump(page, i);
+  }
+  else if (type == 1)
+  {
+    ft_putnbr(page->size);
+    if (page->size <= (SMALL * 100) && page->size > TINY && page->block && page->block->size <=
+        SMALL)
+      print_dump(page, i);
+  }
+  else
+    print_dump(page, i);
+}
+
+void			dump(int type)
+{
+    t_page			*page;
+  	t_block			*block;
+    unsigned int  i;
+
+  	page = g_page_one;
+  	while (page)
+  	{
+      i = page->block->size - page->block->busy;
+      block = page->block;
+      if (type == 0 || type == 1 || type == 2)
+        test_type(page, type, i);
+      else if (type == 3)
+          print_dump(page, i);
+      else
+        ft_putstr("Error number for dump");
+      //}
+  		page->block = block;
+  		page = page->next;
+  	}
 }
