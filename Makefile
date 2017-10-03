@@ -6,7 +6,7 @@
 #    By: tktorza <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/03 12:02:00 by tktorza           #+#    #+#              #
-#    Updated: 2017/10/03 12:04:10 by tktorza          ###   ########.fr        #
+#    Updated: 2017/10/03 16:15:31 by ddevico          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ endif
 
 NAME = libft_malloc_$(HOSTTYPE).so
 
-SRC = my_malloc.c my_free.c show_alloc_mem.c my_calloc.c utils.c my_realloc.c thread_calling.c oki.c
+SRC = my_malloc.c my_free.c show_alloc_mem.c my_calloc.c utils.c my_realloc.c thread_calling.c my_dump.c
 
 OBJ = $(SRC:%.c=obj/%.o)
 

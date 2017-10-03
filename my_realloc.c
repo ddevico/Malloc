@@ -6,13 +6,13 @@
 /*   By: tktorza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/03 12:05:14 by tktorza           #+#    #+#             */
-/*   Updated: 2017/10/03 12:05:15 by tktorza          ###   ########.fr       */
+/*   Updated: 2017/10/03 16:30:59 by ddevico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/malloc.h"
 
-void		*ft_memcpy_realloc(void *dst, const void *src, size_t n)
+static void		*ft_memcpy_realloc(void *dst, const void *src, size_t n)
 {
 	size_t		i;
 	char		*a;
@@ -32,7 +32,7 @@ void		*ft_memcpy_realloc(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-static int	realloc_if(t_block *one, size_t size)
+static int		realloc_if(t_block *one, size_t size)
 {
 	one->size += (one->next)->size;
 	one->busy = size;
@@ -40,12 +40,14 @@ static int	realloc_if(t_block *one, size_t size)
 	return (0);
 }
 
-static void	*try_to_realloc(t_page *page, t_block *one, void *ptr, size_t size)
+static void		*try_to_realloc(t_page *page, t_block *one, void *ptr,
+				size_t size)
 {
 	void		*next;
 
-	if (one->size - sizeof(t_block) >= size || (!one->next && page->size - page->busy >= size))
-		return(update_maillon(page, one, ptr, size));
+	if (one->size - sizeof(t_block) >= size || (!one->next && page->size -
+				page->busy >= size))
+		return (update_maillon(page, one, ptr, size));
 	else if (one->next && (one->next)->busy == 0 && one->size +
 			(one->next)->size - sizeof(t_block) >= size)
 	{
@@ -61,7 +63,7 @@ static void	*try_to_realloc(t_page *page, t_block *one, void *ptr, size_t size)
 	}
 }
 
-void		*to_realloc(t_value val, void *ptr, t_page *first, t_block *one)
+static void		*to_realloc(t_value val, void *ptr, t_page *first, t_block *one)
 {
 	if (val.size == 0)
 	{
@@ -74,7 +76,7 @@ void		*to_realloc(t_value val, void *ptr, t_page *first, t_block *one)
 	return ((ptr == NULL) ? exec_malloc(val.size) : ptr);
 }
 
-void		*exec_realloc(void *ptr, size_t size)
+void			*exec_realloc(void *ptr, size_t size)
 {
 	t_page		*first;
 	t_block		*one;

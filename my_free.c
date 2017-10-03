@@ -6,13 +6,13 @@
 /*   By: tktorza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/03 12:04:50 by tktorza           #+#    #+#             */
-/*   Updated: 2017/10/03 12:04:51 by tktorza          ###   ########.fr       */
+/*   Updated: 2017/10/03 16:32:29 by ddevico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/malloc.h"
 
-int			busy_question(t_page *origin, size_t size)
+int				busy_question(t_page *origin, size_t size)
 {
 	t_block	*prev;
 	int		pull;
@@ -36,7 +36,7 @@ int			busy_question(t_page *origin, size_t size)
 	return ((origin->size - (origin->busy + pull) >= size) ? 1 : -1);
 }
 
-t_page		*delete_page(t_page *origin, t_page *page)
+static t_page	*delete_page(t_page *origin, t_page *page)
 {
 	while (origin->next && (void *)(origin->next) != (void*)page)
 		origin = origin->next;
@@ -49,11 +49,11 @@ t_page		*delete_page(t_page *origin, t_page *page)
 	return (NULL);
 }
 
-void		try_to_delete_page(void)
+static void		try_to_delete_page(void)
 {
-	t_page	*first;
-	t_block	*begin;
-	int		busy;
+	t_page		*first;
+	t_block		*begin;
+	int			busy;
 
 	first = g_page_one;
 	while (g_page_one)
@@ -78,7 +78,7 @@ void		try_to_delete_page(void)
 	g_page_one = first;
 }
 
-void		free2(t_page *first, t_block *one, t_block *begin, size_t plus)
+static void		free2(t_page *first, t_block *one, t_block *begin, size_t plus)
 {
 	first->block->busy = 0;
 	begin = first->block;
@@ -106,7 +106,7 @@ void		free2(t_page *first, t_block *one, t_block *begin, size_t plus)
 	first->block = one;
 }
 
-void		exec_free(void *ptr)
+void			exec_free(void *ptr)
 {
 	t_page	*first;
 	t_block	*one;

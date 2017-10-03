@@ -6,11 +6,21 @@
 /*   By: tktorza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/03 12:04:39 by tktorza           #+#    #+#             */
-/*   Updated: 2017/10/03 12:04:40 by tktorza          ###   ########.fr       */
+/*   Updated: 2017/10/03 16:16:21 by ddevico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/malloc.h"
+
+int			busy_increment(int busy)
+{
+	while (g_page_one->block)
+	{
+		busy += g_page_one->block->busy;
+		g_page_one->block = g_page_one->block->next;
+	}
+	return (busy);
+}
 
 void		*exec_calloc(size_t nmemb, size_t size)
 {
@@ -33,20 +43,10 @@ void		*exec_calloc(size_t nmemb, size_t size)
 void		*calloc(size_t nmemb, size_t size)
 {
 	void	*ptr;
+
 	malloc_init();
 	pthread_mutex_lock(&g_mutex);
 	ptr = exec_calloc(nmemb, size);
 	pthread_mutex_unlock(&g_mutex);
 	return (ptr);
-}
-
-int			busy_increment(int busy)
-{
-	while (g_page_one->block)
-	{
-		busy += g_page_one->block->busy;
-		g_page_one->block = g_page_one->block->next;
-	}
-
-	return (busy);
 }

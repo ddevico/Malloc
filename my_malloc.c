@@ -6,7 +6,7 @@
 /*   By: tktorza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/03 12:05:00 by tktorza           #+#    #+#             */
-/*   Updated: 2017/10/03 12:05:01 by tktorza          ###   ########.fr       */
+/*   Updated: 2017/10/03 16:12:04 by ddevico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void				*exec_malloc(size_t size)
 	return (not_find(size));
 }
 
-void	malloc_init(void)
+void				malloc_init(void)
 {
 	static int		first = 0;
 

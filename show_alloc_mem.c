@@ -6,7 +6,7 @@
 /*   By: tktorza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/03 12:05:31 by tktorza           #+#    #+#             */
-/*   Updated: 2017/10/03 12:05:32 by tktorza          ###   ########.fr       */
+/*   Updated: 2017/10/03 16:10:55 by ddevico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void			put_hexa(unsigned long h)
 		ft_putchar(hex[h]);
 }
 
-void			put_pointer(void *ptr)
+void				put_pointer(void *ptr)
 {
 	ft_putstr("0x");
 	put_hexa((unsigned long)ptr);
