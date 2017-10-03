@@ -38,6 +38,7 @@ static void			print_mem_2(t_page *page)
 	put_pointer((void*)page->block + page->block->size);
 	ft_putstr(" : ");
 	ft_putnbr(page->block->size);
+	ft_putstr(" octets");
 	ft_putendl("");
 	page->block = page->block->next;
 }
@@ -82,4 +83,5 @@ void				show_alloc_mem(void)
 	}
 	ft_putstr("Total: ");
 	ft_putnbr(n);
+	ft_putendl("");
 }
