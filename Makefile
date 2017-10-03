@@ -73,10 +73,10 @@ test:
 	sh compil.sh
 
 norminette:
-	@echo ----------------------- NORMINETTE LIBFT --------------------------."\n"
+	@echo "\n"----------------------- NORMINETTE LIBFT --------------------------"\n"
 	@norminette libft/*.c libft/includes/*.h
-	@echo ----------------------- NORMINETTE MALLOC -------------------------."\n"
+	@echo "\n"----------------------- NORMINETTE MALLOC -------------------------"\n"
 	@norminette *.c includes/malloc.h
-	@echo -------------------------------------------------------------------."\n"
+	@echo "\n"--------------------------- END -----------------------------------"\n"
 
 .PHONY: re fclean clean all test norminette
