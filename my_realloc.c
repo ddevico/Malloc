@@ -40,15 +40,12 @@ static int	realloc_if(t_block *one, size_t size)
 	return (0);
 }
 
-static void	*try_to_realloc(t_block *one, void *ptr, size_t size)
+static void	*try_to_realloc(t_page *page, t_block *one, void *ptr, size_t size)
 {
 	void		*next;
 
-	if (one->size - sizeof(t_block) >= size)
-	{
-		one->busy = size;
-		return (ptr);
-	}
+	if (one->size - sizeof(t_block) >= size || (!one->next && page->size - page->busy >= size))
+		return(update_maillon(page, one, ptr, size));
 	else if (one->next && (one->next)->busy == 0 && one->size +
 			(one->next)->size - sizeof(t_block) >= size)
 	{
@@ -71,7 +68,7 @@ void		*to_realloc(t_value val, void *ptr, t_page *first, t_block *one)
 		exec_free(ptr);
 		return (exec_malloc(1));
 	}
-	ptr = try_to_realloc(first->block, ptr, val.size);
+	ptr = try_to_realloc(first, first->block, ptr, val.size);
 	if (val.y != 0)
 		first->block = one;
 	return ((ptr == NULL) ? exec_malloc(val.size) : ptr);

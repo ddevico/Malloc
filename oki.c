@@ -26,14 +26,14 @@ static void      print_dump(t_page *page, unsigned int i)
 {
   while (page->block != NULL)
   {
-    while (i < page->block->size - sizeof(t_block))
+    while (i < page->block->size)
     {
         put_pointer(memory_plus(page->block, i));
         ft_putstr(": ");
         put_hexa_dump((unsigned long)memory_plus(page->block, i));
-        ft_putstr(" ");
-        ft_putchar((char)memory_plus(page->block, i));
-        ft_putstr("\n");
+				ft_putchar(' ');
+        ft_putchar(((char *)memory_plus(page->block, i))[0]);
+        ft_putchar('\n');
         i++;
     }
     page->block = page->block->next;
@@ -44,17 +44,15 @@ static void       test_type(t_page *page, int type, unsigned int i)
 {
   if (type == 0)
   {
-    if (page->size <= (TINY * 100) && page->block && page->block->size <=
-        TINY)
+    if (page->size == (TINY * 100) && page->block)
       print_dump(page, i);
   }
   else if (type == 1)
   {
-    if (page->size <= (SMALL * 100) && page->block && page->block->size <=
-        SMALL)
+    if (page->size == (SMALL * 100) && page->block)
       print_dump(page, i);
   }
-  else
+  else if (page->size > (SMALL * 100) && page->block)
     print_dump(page, i);
 }
 
@@ -67,7 +65,7 @@ void			dump(int type)
   	page = g_page_one;
   	while (page)
   	{
-      i = page->block->size - page->block->busy;
+      i = sizeof(t_block);
       block = page->block;
       if (type == 0 || type == 1 || type == 2)
         test_type(page, type, i);

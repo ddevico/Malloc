@@ -77,5 +77,6 @@ int					types_of_var(size_t page, size_t size);
 void				*memory_plus(void *addr, size_t inc);
 void				*busyness(t_page page, size_t size, int busy);
 int					busy_increment(int busy);
+void *update_maillon(t_page *page, t_block *one, void *ptr, size_t size);
 
 #endif
