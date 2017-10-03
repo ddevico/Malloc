@@ -76,7 +76,7 @@ norminette:
 	@echo ----------------------- NORMINETTE LIBFT --------------------------."\n"
 	@norminette libft/*.c libft/includes/*.h
 	@echo ----------------------- NORMINETTE MALLOC -------------------------."\n"
-	@norminette $(SRC) includes/malloc.h
+	@norminette *.c includes/malloc.h
 	@echo -------------------------------------------------------------------."\n"
 
 .PHONY: re fclean clean all test norminette
