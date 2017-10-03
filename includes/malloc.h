@@ -69,7 +69,9 @@ int					busy_question(t_page *origin, size_t size);
 int					busy_precision(t_page *origin, size_t size);
 void				show_alloc_mem(void);
 void				show_alloc_mem2(void);
-void				impress(void);
+void				put_pointer(void *ptr);
+void				dump(int type);
+
 size_t				type_of_size(size_t size);
 int					types_of_var(size_t page, size_t size);
 void				*memory_plus(void *addr, size_t inc);

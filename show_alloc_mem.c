@@ -25,7 +25,7 @@ static void			put_hexa(unsigned long h)
 		ft_putchar(hex[h]);
 }
 
-static void			put_pointer(void *ptr)
+void			put_pointer(void *ptr)
 {
 	ft_putstr("0x");
 	put_hexa((unsigned long)ptr);

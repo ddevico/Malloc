@@ -1,5 +1,27 @@
 #include "includes/malloc.h"
 
+static void			put_hexa_dump(unsigned long h)
+{
+	const char		*hex = "0123456789abcdef";
+	static int i;
+
+	if (h >= 16)
+	{
+		put_hexa_dump(h / 16);
+		put_hexa_dump(h % 16);
+	}
+	else
+	{
+		ft_putchar(hex[h]);
+		i++;
+		if (i == 2)
+		{
+			ft_putstr(" ");
+			i = 0;
+		}
+	}
+}
+
 static void      print_dump(t_page *page, unsigned int i)
 {
   while (page->block != NULL)
@@ -28,8 +50,7 @@ static void       test_type(t_page *page, int type, unsigned int i)
   }
   else if (type == 1)
   {
-    ft_putnbr(page->size);
-    if (page->size <= (SMALL * 100) && page->size > TINY && page->block && page->block->size <=
+    if (page->size <= (SMALL * 100) && page->block && page->block->size <=
         SMALL)
       print_dump(page, i);
   }
@@ -54,7 +75,6 @@ void			dump(int type)
           print_dump(page, i);
       else
         ft_putstr("Error number for dump");
-      //}
   		page->block = block;
   		page = page->next;
   	}
