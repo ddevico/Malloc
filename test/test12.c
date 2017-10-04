@@ -16,11 +16,12 @@ int main()
 	char *addr3;
 
 	addr1 = (char*)malloc(2000);
-	addr2 = (char*)malloc(2000);
-	strcpy(addr1, "Bonjours\n");
+	addr2 = (char*)malloc(20);
+	printf("%s\n", addr1);
 	free(addr1);
+	show_alloc_mem();
 	free(addr1);
-	free(addr1);
+	free(addr2);
 	show_alloc_mem();
 	return (0);
 }
