@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tktorza <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: tktorza <tktorza@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/03 12:02:00 by tktorza           #+#    #+#              #
-#    Updated: 2017/10/03 16:15:31 by ddevico          ###   ########.fr        #
+#    Updated: 2017/10/04 10:19:48 by davydevico       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,16 @@ endif
 
 NAME = libft_malloc_$(HOSTTYPE).so
 
+SRC_DIR	= ./src
+
 SRC = my_malloc.c my_free.c show_alloc_mem.c my_calloc.c utils.c my_realloc.c thread_calling.c my_dump.c
 
-OBJ = $(SRC:%.c=obj/%.o)
+VPATH	= $(SRC_DIR)
+
+O_DIR	= ./obj
+OBJ		= $(addprefix $(O_DIR)/,$(SRC:.c=.o))
+
+#OBJ = $(SRC:%.c=obj/%.o)
 
 WFLAGS = -W -Wall -Werror -Wextra -fPIC
 
@@ -30,7 +37,7 @@ I_LIBFT = -I libft/includes/
 
 LIBFT = $(I_LIBFT) -Llibft -lft
 
-all : $(NAME)
+all : $(NAME) test
 
 $(NAME): obj $(OBJ)
 	@echo "\n";
@@ -42,6 +49,7 @@ $(NAME): obj $(OBJ)
 	@echo "$(CG) #+#       #+# #+#     #+# #+#        #+#       #+#    #+# #+#    #+#     $(CE)";
 	@echo "$(CG)###       ### ###     ### ########## ########## ########   ########       $(CE)";
 	@echo "\n";
+	@echo "\n"---------------------- MALLOC COMPILING -------------------------
 	@echo "\n\033[31m==> COMPILING in progress ...\033[0m\n"
 	@make -C libft
 	@$(CC) $(WFLAGS) -shared  -o $@ $(OBJ) $(HEADERS) $(LIBFT)
@@ -56,6 +64,7 @@ obj:
 		@mkdir -p obj/
 
 clean:
+	@echo "\n"----------------------- MALLOC CLEAN ---------------------------
 	@echo "\n\033[35m==> CLEANING in progress ...\033[0m\n"
 	@make clean -C libft
 	@rm -rf $(OBJ)
@@ -65,12 +74,15 @@ fclean: clean
 	@rm -rf $(NAME) libft_malloc*
 	@echo "\033[35m==> CLEANING test files ...\033[0m\n"
 	@find test/. \! -name "*.*" -type f -exec rm {} \;
+	@echo ---------------------------- END -------------------------------"\n"
 
 re: fclean all
 
 test:
+	@echo ------------------------- TEST FILES ----------------------------
 	@echo "\n\033[31m==> COMPILING test files ...\033[0m\n"
-	sh compil.sh
+	@sh test/compil.sh
+	@echo ---------------------------- END -------------------------------"\n"
 
 norminette:
 	@echo "\n"----------------------- NORMINETTE LIBFT --------------------------"\n"
@@ -79,4 +91,4 @@ norminette:
 	@norminette *.c includes/malloc.h
 	@echo "\n"--------------------------- END -----------------------------------"\n"
 
-.PHONY: re fclean clean all test norminette
+.PHONY: re fclean clean all norminette test
