@@ -6,7 +6,7 @@
 #    By: tktorza <tktorza@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/03 12:02:00 by tktorza           #+#    #+#              #
-#    Updated: 2017/10/16 16:05:38 by ddevico          ###   ########.fr        #
+#    Updated: 2017/10/16 16:07:28 by ddevico          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,6 @@ VPATH	= $(SRC_DIR)
 
 O_DIR	= ./obj
 OBJ		= $(addprefix $(O_DIR)/,$(SRC:.c=.o))
-
-#OBJ = $(SRC:%.c=obj/%.o)
 
 WFLAGS = -W -Wall -Werror -Wextra -fPIC
 
