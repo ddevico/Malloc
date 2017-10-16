@@ -48,7 +48,6 @@ typedef struct			s_value
 }						t_value;
 
 t_page					*g_page_one;
-extern pthread_mutex_t	g_mutex;
 
 void					*calloc(size_t nmemb, size_t size);
 void					*exec_calloc(size_t nmemb, size_t size);

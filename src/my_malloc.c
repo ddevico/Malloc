@@ -6,13 +6,11 @@
 /*   By: tktorza <tktorza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/03 12:05:00 by tktorza           #+#    #+#             */
-/*   Updated: 2017/10/04 09:42:02 by davydevico       ###   ########.fr       */
+/*   Updated: 2017/10/16 12:52:23 by ddevico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
-
-pthread_mutex_t g_mutex;
 
 static void			*place(t_page *page, size_t size, int busy)
 {
@@ -92,7 +90,6 @@ void				malloc_init(void)
 
 	if (first == 0)
 	{
-		pthread_mutex_init(&g_mutex, NULL);
 		g_page_one = NULL;
 		first = 1;
 	}

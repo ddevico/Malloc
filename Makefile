@@ -6,7 +6,7 @@
 #    By: tktorza <tktorza@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/03 12:02:00 by tktorza           #+#    #+#              #
-#    Updated: 2017/10/04 10:19:48 by davydevico       ###   ########.fr        #
+#    Updated: 2017/10/16 16:05:38 by ddevico          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,7 @@ norminette:
 	@echo "\n"----------------------- NORMINETTE LIBFT --------------------------"\n"
 	@norminette libft/*.c libft/includes/*.h
 	@echo "\n"----------------------- NORMINETTE MALLOC -------------------------"\n"
-	@norminette *.c includes/malloc.h
+	@norminette src/*.c includes/malloc.h
 	@echo "\n"--------------------------- END -----------------------------------"\n"
 
 .PHONY: re fclean clean all norminette test
